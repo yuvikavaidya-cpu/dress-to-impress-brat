@@ -12,7 +12,7 @@ const HAIR_COLORS = ['#111111', '#3b2416', '#5a3825', '#8b5a2b', '#b5562b', '#e3
 const EYE_COLORS = ['#6b4226', '#3b2416', '#3a7bd5', '#2d9c5a', '#8f9aa5', '#a06cd5', '#e0245e', '#d4af37', '#111111', '#8ACE00'];
 const LIP_COLORS = ['#e07a8a', '#c2185b', '#e0245e', '#b5651d', '#7a1f3d', '#ff8fc8', '#d9a38e', '#111111', '#8ACE00', '#5e2a84'];
 const PALETTE = ['#111111', '#ffffff', '#8ACE00', '#ff4fa3', '#ff8fc8', '#e0245e', '#ff3b30', '#ff9500', '#ffd60a', '#fff3b0', '#34c759', '#b8f2c9', '#2ec4b6', '#5ab4ff', '#0a84ff', '#1d3557', '#5e5ce6', '#c9a7ff', '#bf5af2', '#7a1f3d', '#a2845e', '#f5e6c8', '#c0c0c0', '#d4af37'];
-const PATTERNS = ['solid', 'stripes', 'diag', 'polka', 'check', 'plaid', 'leopard', 'zebra', 'hearts', 'stars', 'flowers', 'sparkle', 'denim', 'mesh', 'mirror', 'paisley', 'bandhani', 'web', 'snow'];
+const PATTERNS = ['solid', 'stripes', 'diag', 'polka', 'check', 'plaid', 'leopard', 'zebra', 'hearts', 'stars', 'flowers', 'sparkle', 'denim', 'mesh', 'mirror', 'paisley', 'bandhani', 'web', 'snow', 'gulal', 'phulkari', 'lehariya'];
 
 /* ---------- tiny SVG helpers ---------- */
 const OL = 'stroke="#2b1a24" stroke-opacity=".5" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"';
@@ -72,6 +72,9 @@ function patternDef(id, pat, c1, c2) {
     case 'bandhani': return W(14, 14, `<g fill="${c2}"><circle cx="3" cy="3" r="1"/><circle cx="5.5" cy="3" r="1"/><circle cx="4.2" cy="5.2" r="1"/><circle cx="10" cy="10" r="1"/><circle cx="12.5" cy="10" r="1"/><circle cx="11.2" cy="12.2" r="1"/></g>`);
     case 'web': return W(40, 40, `<g stroke="${c2}" stroke-width=".8" fill="none"><path d="M20,0 L20,40 M0,20 L40,20 M0,0 L40,40 M40,0 L0,40"/><path d="M20,12 L28,20 L20,28 L12,20 Z"/><path d="M20,5 L35,20 L20,35 L5,20 Z"/></g>`, '', `<rect width="40" height="40" fill="${c1}" opacity=".3"/>`);
     case 'snow': return W(22, 22, `<g stroke="${c2}" stroke-width="1.2" stroke-linecap="round"><path d="M11,6 L11,16 M6.7,8.5 L15.3,13.5 M6.7,13.5 L15.3,8.5"/></g><circle cx="2" cy="20" r="1" fill="${c2}"/><circle cx="20" cy="2" r="1" fill="${c2}"/>`);
+    case 'gulal': return W(30, 30, [[5, 6, '#ff4fa3', 4], [20, 4, '#34c759', 3], [14, 16, '#ffd60a', 4.5], [26, 22, '#5ab4ff', 3.5], [4, 24, '#bf5af2', 3]].map(([x, y, c, r]) => `<circle cx="${x}" cy="${y}" r="${r}" fill="${c}" opacity=".85"/><circle cx="${x + r}" cy="${y - r * .6}" r="${r * .35}" fill="${c}" opacity=".85"/>`).join(''));
+    case 'phulkari': return W(16, 16, `<path d="M8,1 L15,8 L8,15 L1,8 Z" fill="${c2}"/><path d="M8,4.5 L11.5,8 L8,11.5 L4.5,8 Z" fill="#ffd60a"/><circle cx="8" cy="8" r="1" fill="${c1}"/>`);
+    case 'lehariya': return W(14, 14, `<path d="M-2,10 Q1.5,4 5,10 T12,10 T19,10" stroke="${c2}" stroke-width="2.4" fill="none"/>`, 'patternTransform="rotate(-35)"');
     default: return '';
   }
 }
@@ -164,7 +167,7 @@ function I(slot, id, name, tags, draw, o = {}) {
     price: o.price || 0, vip: !!o.vip, noPat: !!o.noPat, two: !!o.two,
     // seasonal event items unlock with that event's tokens; pass items are claimed from the Baddie Pass
     ev: o.ev || (o.brat !== undefined ? 'brat' : undefined), need: o.need ?? o.brat ?? 0,
-    pass: o.pass || 0, prem: !!o.prem,
+    pass: o.pass || 0, prem: !!o.prem, fest: !!o.fest, hidesHair: !!o.hidesHair,
   });
 }
 // straight column skirt that starts below the hips
@@ -619,6 +622,60 @@ H('baddiebun', 'Sleek Baddie Bun', ['baddie', 'elegant', 'street', 'party'], P =
 O('motojacket', 'Moto Jacket', ['baddie', 'rock', 'edgy', 'street'], P => ({ main: both(p(jacketHalf(244, 6, { pad: 4 }), P.f) + p('M138,152 L142,196 L120,184 Z', P.d)) + ln('M128,170 L160,236', '#c0c0c0', 1.6, 1), arm: p(SLV.long, P.f) + ln('M70,262 L92,266', '#c0c0c0', 1.4, 1) }), { c1: '#111111', ...PASS(14, true) });
 Bk('baddiewings', 'Dark Angel Wings', ['baddie', 'goth', 'party', 'glam'], P => both(p(WING, P.f)), { c1: '#111111', c2: '#d4af37', pat: 'sparkle', ...PASS(15, true) });
 
+
+/* ===== FESTIVALS OF INDIA (free pieces; some priced) ===== */
+const FEST = { fest: true };
+const SAREE = P => ({ main: p(torso(176, 232, { neck: 'scoop' }), P.c2) + p(skirt(278, 548, 22), P.f) + ln(`M${r1(150 - hw(322) - 24)},544 Q150,556 ${r1(150 + hw(322) + 24)},544`, P.c2, 6, 1) + [-12, 0, 12].map(x => ln(`M${150 + x},300 L${150 + x * 1.6},544`, P.d, 1.2, .5)).join('') + p('M184,152 L204,162 L198,252 L120,304 L104,288 Q164,232 184,152 Z', P.f) + ln('M104,288 L120,304 L198,252', P.c2, 4, 1), arm: p(SLV.cap, P.c2) });
+// Holi
+Tp('holikurta', 'Holi Kurta', ['holi', 'desi', 'festive', 'casual'], P => ({ main: p(torso(158, 380, { neck: 'v', pad: 4 }), P.f) + ln('M137,158 L150,196 L163,158', P.d, 2, .6), arm: p(SLV.elbow, P.f) }), { c1: '#ffffff', c2: '#ff4fa3', pat: 'gulal', ...FEST });
+MK('facedeco', 'fd-gulal', 'Gulal Colors', ['holi', 'festive', 'party'], P => `<g filter="url(#${P.uid}-soft)" opacity=".75">${[[126, 110, '#ff4fa3', 8], [175, 108, '#34c759', 7], [150, 70, '#ffd60a', 8], [134, 124, '#5ab4ff', 5], [166, 125, '#bf5af2', 5]].map(([x, y, c, r]) => circ(x, y, r, c)).join('')}</g>`, FEST);
+Bg('pichkari', 'Pichkari', ['holi', 'festive', 'cute'], P => `<rect x="46" y="320" width="44" height="12" rx="5" fill="${P.c1}" ${OL}/><rect x="38" y="323" width="9" height="6" fill="${P.d}" ${OL}/><circle cx="84" cy="314" r="9" fill="${P.c2}" ${OL}/><rect x="74" y="330" width="8" height="16" rx="3" fill="${P.d}" ${OL}/>` + [[30, 322], [21, 317], [13, 326]].map(([x, y]) => circ(x, y, 2.4, P.c2)).join(''), { c1: '#ffd60a', c2: '#ff4fa3', two: true, noPat: true, ...FEST });
+// Raksha Bandhan
+Gl('rakhi', 'Rakhi', ['rakhi', 'desi', 'festive', 'cute'], P => ln('M68,306 L90,308', P.c1, 2.4, 1) + [0, 72, 144, 216, 288].map(a => circ(r1(79 + 4.5 * Math.cos(a * Math.PI / 180)), r1(307 + 4.5 * Math.sin(a * Math.PI / 180)), 3, P.c2, OL)).join('') + circ(79, 307, 2.6, '#d4af37', OL), { c1: '#e0245e', c2: '#ffd60a', two: true, noPat: true, ...FEST });
+Bg('thali', 'Pooja Thali', ['rakhi', 'diwali', 'desi', 'festive'], P => `<ellipse cx="78" cy="324" rx="27" ry="7.5" fill="${P.c1}" ${OL}/>` + circ(62, 320, 3.6, '#ff9500', OL) + circ(69, 317, 3.6, '#ffd60a', OL) + circ(94, 320, 3, '#e0245e', OL) + p('M76,320 Q82,326 88,320 Q86,316 82,317 Q78,316 76,320 Z', '#b5562b') + '<path d="M82,317 Q79,311 82,305 Q85,311 82,317 Z" fill="#ffd60a"/>', { c1: '#d4af37', noPat: true, ...FEST });
+// Eid
+Dr('sharara', 'Sharara Set', ['eid', 'desi', 'festive', 'elegant', 'wedding'], P => ({ main: p(pants(330, 542, { pad: 3, flare: 28 }), P.f) + p(torso(158, 350, { neck: 'v', pad: 4 }), P.f) + ln(`M${r1(150 - hw(344) - 4)},344 L${r1(150 + hw(344) + 4)},344`, P.c2, 4, 1) + ln('M137,158 L150,196 L163,158', P.c2, 2.4, 1), arm: p(SLV.long, P.f) + cuff(P.c2) }), { c1: '#2d6a4f', c2: '#d4af37', two: true, ...FEST });
+Ht('hijab', 'Embroidered Hijab', ['eid', 'elegant', 'festive', 'modest'], P => ({ back: p('M100,96 Q100,40 150,36 Q200,40 200,96 L208,210 Q150,226 92,210 Z', P.f), main: `<path d="M108,98 Q104,34 150,32 Q196,34 192,98 Q196,146 184,170 Q150,184 116,170 Q104,146 108,98 Z M150,62 A30,37 0 1,0 150,136 A30,37 0 1,0 150,62 Z" fill="${P.f}" fill-rule="evenodd" ${OL}/>` + ln('M122,70 Q150,56 178,70', P.c2, 2, .9) }), { c1: '#c9a7ff', c2: '#d4af37', two: true, hidesHair: true, ...FEST });
+E('chaand', 'Chaand Earrings', ['eid', 'festive', 'elegant'], P => p('M114,112 A8,8 0 1,0 121,126 A6,6 0 1,1 114,112 Z', P.c1) + circ(116, 109, 1.4, P.c1), { c1: '#d4af37', ...FEST });
+// Makar Sankranti / Pongal / Onam
+Bg('kite', 'Patang Kite', ['harvest', 'festive', 'cute', 'desi'], P => ln('M78,330 Q58,300 70,256', '#ffffff', 1, .9) + p('M70,190 L94,222 L70,256 L46,222 Z', P.f) + ln('M70,190 L70,256 M46,222 L94,222', P.d, 1, .6) + p('M70,256 L64,268 L76,268 Z', P.c2), { c1: '#ff4fa3', c2: '#ffd60a', two: true, ...FEST });
+Dr('pavadai', 'Pattu Pavadai', ['harvest', 'onam', 'desi', 'festive', 'cute'], P => ({ main: p(torso(170, 262, { neck: 'crew' }), P.c2) + p(skirt(262, 530, 40), P.f) + ln(`M${r1(150 - hw(322) - 42)},524 Q150,538 ${r1(150 + hw(322) + 42)},524`, '#d4af37', 10, 1) + ln('M112,268 L188,268', '#d4af37', 5, 1), arm: p(SLV.puff, P.c2) }), { c1: '#bf5af2', c2: '#2d6a4f', two: true, ...FEST });
+Dr('kasavu', 'Kasavu Saree', ['onam', 'desi', 'festive', 'elegant'], SAREE, { c1: '#f5e6c8', c2: '#d4af37', two: true, ...FEST });
+Ht('mullappoo', 'Jasmine Mullappoo', ['onam', 'desi', 'festive', 'wedding'], () => range(0, 1, 1 / 9).map(t => { const [x, y] = qpt([168, 52], [206, 92], [192, 150], t); return circ(r1(x), r1(y), 4, '#fffdf6', OL); }).join('') + circ(166, 52, 5, '#ff9500', OL), { noPat: true, ...FEST });
+// Ganesh Chaturthi
+Bg('modak', 'Modak Plate', ['ganesh', 'festive', 'desi'], P => `<ellipse cx="78" cy="326" rx="24" ry="6.5" fill="${P.c1}" ${OL}/>` + [[66, 320], [78, 316], [90, 320]].map(([x, y]) => p(`M${x},${y - 10} Q${x - 8},${y} ${x - 6},${y + 4} L${x + 6},${y + 4} Q${x + 8},${y} ${x},${y - 10} Z`, '#fff3d6')).join(''), { c1: '#d4af37', noPat: true, ...FEST });
+Dr('nauvari', 'Nauvari Saree', ['ganesh', 'desi', 'festive', 'elegant'], P => ({ main: p(pants(276, 520, { pad: 6 }), P.f) + both(ln('M120,514 L148,514', P.c2, 6, 1)) + p(torso(176, 232, { neck: 'scoop' }), P.c2) + p('M184,152 L204,162 L196,252 L120,300 L104,286 Q164,232 184,152 Z', P.f) + ln('M104,286 L120,300 L196,252', P.c2, 4, 1), arm: p(SLV.elbow, P.c2) }), { c1: '#2d6a4f', c2: '#e0245e', two: true, ...FEST });
+Ht('pheta', 'Saffron Pheta', ['ganesh', 'wedding', 'festive', 'desi'], P => p('M110,80 Q104,30 150,26 Q196,30 190,80 Q150,66 110,80 Z', P.f) + ln('M112,70 Q150,48 188,62 M114,58 Q150,36 186,50', P.d, 1.6, .6) + p('M180,40 Q210,30 214,4 Q200,22 176,30 Z', P.f), { c1: '#ff9500', c2: '#ffd60a', pat: 'bandhani', ...FEST });
+// Karva Chauth
+Bg('channi', 'Karva Chauth Channi', ['karva', 'desi', 'festive', 'romantic'], P => `<circle cx="78" cy="298" r="22" fill="${P.c1}" fill-opacity=".35" stroke="#d4af37" stroke-width="4"/>` + ln('M62,284 L94,312 M94,284 L62,312 M58,298 L98,298 M78,278 L78,318', '#d4af37', .8, .8), { c1: '#e0245e', noPat: true, ...FEST });
+Gl('chooda', 'Bridal Chooda', ['karva', 'wedding', 'desi', 'festive'], P => range(258, 314, 5).map((y, i) => `<ellipse cx="${r1(81 - (y - 258) * .05)}" cy="${y}" rx="${r1(10.5 + (y - 258) * .02)}" ry="2.6" fill="none" stroke="${i % 3 === 2 ? '#ffffff' : P.c1}" stroke-width="3"/>`).join(''), { c1: '#c2185b', noPat: true, ...FEST });
+MK('facedeco', 'fd-tikli', 'Red Bindi & Tikli', ['karva', 'wedding', 'desi', 'festive'], () => circ(150, 81, 3.6, '#e0245e') + [[143, 80], [157, 80], [150, 74]].map(([x, y]) => circ(x, y, .9, '#d4af37')).join(''), FEST);
+// Lohri / Baisakhi
+Bk('phulkari', 'Phulkari Dupatta', ['harvest', 'desi', 'festive', 'cottage'], P => ({ main: p('M106,162 Q84,300 96,472 L120,470 Q108,300 124,168 Z', P.f), front: p('M108,156 Q146,200 194,296 L204,280 Q156,186 122,150 Z', P.f) + ln('M108,156 Q146,200 194,296', P.c2, 2.4, 1) }), { c1: '#e0245e', c2: '#ffd60a', pat: 'phulkari', two: true, ...FEST });
+B('patiala', 'Patiala Salwar', ['harvest', 'desi', 'festive', 'casual'], P => p(pants(266, 522, { pad: 10 }), P.f) + both(ln('M104,300 Q112,380 122,470 M114,300 Q120,380 128,470', P.d, 1.2, .5) + ln('M120,516 L146,516', P.d, 5, .7)), { c1: '#ffd60a', ...FEST });
+H('paranda', 'Paranda Braid', ['harvest', 'desi', 'festive', 'cottage'], P => ({ back: p(HB, P.f), main: p(CAP_MID, P.f) + range(0, 10, 1).map(i => `<ellipse cx="${r1(120 - i * .6)}" cy="${118 + i * 21}" rx="8.5" ry="12" fill="${P.f}" ${OL}/>`).join('') + ln('M114,330 L112,360 M118,330 L118,364 M122,330 L124,360', P.c2, 2.4, 1) + circ(112, 362, 3.4, P.c2) + circ(118, 366, 3.4, P.c2) + circ(124, 362, 3.4, P.c2) }), { c1: '#111111', c2: '#e0245e', two: true, ...FEST });
+Bg('dhol', 'Dhol', ['harvest', 'festive', 'desi', 'party'], P => `<rect x="46" y="332" width="64" height="40" rx="18" fill="${P.f}" ${OL}/><ellipse cx="46" cy="352" rx="7" ry="20" fill="#f5e6c8" ${OL}/><ellipse cx="110" cy="352" rx="7" ry="20" fill="#f5e6c8" ${OL}/>` + ln('M52,334 L104,370 M52,370 L104,334', P.c2, 1.4, .9), { c1: '#e0245e', c2: '#ffd60a', two: true, ...FEST });
+// Janmashtami
+Ht('morpankh', 'Peacock Feather Crown', ['krishna', 'desi', 'festive', 'royal'], P => p('M120,64 L124,44 L150,38 L176,44 L180,64 Z', P.f) + `<ellipse cx="160" cy="18" rx="9" ry="20" fill="#2d6a4f" transform="rotate(20 160 18)" ${OL}/><ellipse cx="161" cy="14" rx="5" ry="8" fill="#0a84ff" transform="rotate(20 161 14)"/>` + circ(161, 13, 2.6, '#1d3557') + circ(150, 52, 3.4, '#e0245e'), { c1: '#d4af37', noPat: true, ...FEST });
+Bg('bansuri', 'Bansuri Flute', ['krishna', 'desi', 'festive'], P => `<rect x="40" y="320" width="80" height="6" rx="3" fill="${P.c1}" ${OL}/>` + [52, 60, 68, 92, 100].map(x => circ(x, 323, 1.3, '#3b2416')).join('') + ln('M106,323 L112,340', '#e0245e', 1.6, 1), { c1: '#c8a878', noPat: true, ...FEST });
+Bg('matki', 'Makhan Matki', ['krishna', 'desi', 'cute'], P => `<ellipse cx="78" cy="354" rx="22" ry="20" fill="${P.f}" ${OL}/><rect x="66" y="330" width="24" height="8" rx="3" fill="${P.d}" ${OL}/>` + ln('M58,352 Q78,360 98,352', '#fff', 2, .8), { c1: '#b5562b', ...FEST });
+// Bihu
+Dr('mekhela', 'Mekhela Chador', ['bihu', 'desi', 'festive', 'elegant'], P => ({ main: p(torso(176, 232, { neck: 'scoop' }), P.c2) + p(skirt(276, 540, 12), P.f) + ln(`M${r1(150 - hw(322) - 14)},532 Q150,544 ${r1(150 + hw(322) + 14)},532`, P.c2, 8, 1) + p('M184,152 L204,162 L198,252 L120,304 L104,288 Q164,232 184,152 Z', P.f) + ln('M104,288 L120,304 L198,252', P.c2, 5, 1), arm: p(SLV.elbow, P.c2) }), { c1: '#f5e6c8', c2: '#c2185b', two: true, ...FEST });
+N('gamosa', 'Gamosa', ['bihu', 'desi', 'festive'], P => both(p('M138,150 Q128,160 126,240 L140,240 Q140,170 150,158 Z', P.f) + ln('M126,234 L140,234', P.c2, 4, 1)), { c1: '#ffffff', c2: '#e0245e', two: true, ...FEST });
+// Teej
+Dr('lehariya', 'Lehariya Saree', ['teej', 'desi', 'festive', 'elegant'], SAREE, { c1: '#34c759', c2: '#ffd60a', pat: 'lehariya', two: true, ...FEST });
+// Independence Day / Republic Day
+N('tirangascarf', 'Tiranga Scarf', ['tiranga', 'festive', 'casual'], P => `<linearGradient id="${P.uid}-tri" x1="0" y1="0" x2="1" y2="0"><stop offset=".33" stop-color="#ff9933"/><stop offset=".33" stop-color="#ffffff"/><stop offset=".66" stop-color="#ffffff"/><stop offset=".66" stop-color="#138808"/></linearGradient>` + p('M134,138 Q150,152 166,138 L171,162 Q150,174 129,162 Z', `url(#${P.uid}-tri)`) + p('M156,160 L172,236 L154,238 L148,166 Z', `url(#${P.uid}-tri)`), { noPat: true, ...FEST });
+Bg('flag', 'Tiranga Flag', ['tiranga', 'festive'], () => ln('M78,334 L78,250', '#8b5a2b', 2.4, 1) + '<rect x="78" y="250" width="42" height="9" fill="#ff9933"/><rect x="78" y="259" width="42" height="9" fill="#ffffff"/><rect x="78" y="268" width="42" height="9" fill="#138808"/><circle cx="99" cy="263.5" r="3.4" fill="none" stroke="#000080" stroke-width="1"/>', { noPat: true, ...FEST });
+MK('facedeco', 'fd-tiranga', 'Tiranga Face Paint', ['tiranga', 'festive', 'sporty'], () => '<rect x="118" y="108" width="12" height="3" fill="#ff9933"/><rect x="118" y="111" width="12" height="3" fill="#ffffff"/><rect x="118" y="114" width="12" height="3" fill="#138808"/>', FEST);
+// everyday festive wear
+Dr('anarkali', 'Anarkali Suit', ['desi', 'festive', 'elegant', 'wedding', 'eid', 'diwali'], P => ({ main: p(torso(158, 238, { neck: 'crew' }), P.f) + p(`M${r1(150 - hw(236) - 2)},236 L${r1(150 + hw(236) + 2)},236 L${r1(150 + hw(236) + 62)},520 Q150,532 ${r1(150 - hw(236) - 62)},520 Z`, P.f) + ln(`M${r1(150 - hw(236) - 60)},512 Q150,524 ${r1(150 + hw(236) + 60)},512`, P.c2, 6, 1) + ln('M110,240 L190,240', P.c2, 4, 1), arm: p(SLV.long, P.f) + cuff(P.c2) }), { c1: '#c2185b', c2: '#d4af37', two: true, ...FEST });
+O('sherwani', 'Sherwani', ['desi', 'wedding', 'festive', 'formal', 'royal'], P => ({ main: both(p(jacketHalf(440, 1, { pad: 4, flare: .06, close: 170 }), P.f)) + range(176, 420, 22).map(y => circ(150, y, 2.4, P.c2)).join(''), arm: p(SLV.long, P.f) + cuff(P.c2) }), { c1: '#f5e6c8', c2: '#d4af37', pat: 'paisley', two: true, price: 500, ...FEST });
+O('nehru', 'Nehru Jacket', ['desi', 'festive', 'office', 'formal'], P => ({ main: both(p(jacketHalf(300, 1, { pad: 2, close: 170 }), P.f)) + range(180, 290, 22).map(y => circ(150, y, 2.2, P.c2)).join('') }), { c1: '#1d3557', c2: '#d4af37', two: true, ...FEST });
+S('kolhapuri', 'Kolhapuri Chappals', ['desi', 'festive', 'casual', 'summer'], P => p('M122,546 L149,546 L149,553 Q136,556 122,553 Z', P.d) + ln('M125,536 L145,536 M124,543 L146,543', P.c1, 4, 1) + circ(128, 528, 2.4, P.c1), { c1: '#a2845e', ...FEST });
+N('kundan', 'Kundan Choker', ['desi', 'wedding', 'festive', 'royal'], P => p('M134,140 Q150,150 166,140 L166,152 Q150,162 134,152 Z', P.c1) + [138, 144, 150, 156, 162].map(x => circ(x, 149, 2.2, P.c2, OL) + circ(x, 160, 1.6, '#fff')).join(''), { c1: '#d4af37', c2: '#2d6a4f', two: true, noPat: true, ...FEST });
+W('payal', 'Payal Anklets', ['desi', 'festive', 'wedding'], () => ln('M124,520 Q134,524 146,520', '#e6e6f0', 1.6, 1) + [127, 131, 135, 139, 143].map(x => circ(x, 524, 1.3, '#e6e6f0')).join(''), { noPat: true, ...FEST });
+
 /* extra tags so older pieces fit the new themes */
 const TAG_ADD = {
   bikini: ['swim'], tube: ['swim'], shades: ['swim'], sandals: ['swim'], wavy: ['swim'], bucket: ['swim'],
@@ -627,7 +684,7 @@ const TAG_ADD = {
   sequintop: ['newyear'], bodycon: ['newyear', 'baddie'], glowsticks: ['newyear'], starglasses: ['newyear'], clutch: ['newyear'], mermaid: ['newyear'],
   bunny: ['easter'], babydoll: ['easter'], sundress: ['easter'], flowercrown: ['easter'], hearttee: ['easter'],
   corset: ['baddie'], hoops: ['baddie'], chain: ['baddie'], leatherpants: ['baddie'], cargo: ['baddie'], fishnets: ['baddie'], 's-liner': ['baddie'], 'l-pout': ['baddie'],
-  bangles: ['desi', 'festive'], halo: ['festive'],
+  bangles: ['desi', 'festive', 'karva'], 'fd-bindi': ['karva', 'diwali'], jhumka: ['diwali', 'eid'], lantern: ['eid'], diya: ['karva'], sparkler: ['tiranga'], kurti: ['holi', 'rakhi', 'teej'], chooriyan: ['teej', 'karva', 'rakhi'], mehendi: ['eid', 'teej', 'karva', 'rakhi'], dupatta: ['rakhi', 'teej', 'eid'], saree: ['diwali', 'karva'], lehenga: ['diwali', 'karva', 'eid'], chaniyacholi: ['teej'], juttis: ['eid', 'rakhi', 'harvest'], 'fd-nath': ['karva', 'teej'], gajra: ['onam', 'ganesh'], templeneck: ['onam', 'diwali'], maangtikka: ['karva', 'eid'], dandiya: ['holi'], halo: ['festive'],
   cardigan: ['autumn'], beret: ['autumn'], kneeboots: ['autumn'], trench: ['autumn'], coffee: ['autumn'], cowboots: ['autumn'], 'fd-freckles': ['autumn'],
   witch: ['halloween'], witchhat: ['halloween'], pumpkin: ['halloween'],
 };
@@ -672,6 +729,7 @@ function renderCharacter(o, opt = {}) {
     const inst = s[slot];
     if (!inst) continue;
     if (s.dress && (slot === 'top' || slot === 'bottom')) continue;
+    if (slot === 'hair' && s.hat && ITEMS_BY_ID[s.hat.id]?.hidesHair) continue;
     const it = ITEMS_BY_ID[inst.id];
     if (!it) continue;
     const c1 = inst.c1 || it.c1, c2 = inst.c2 || it.c2, pat = it.noPat ? 'solid' : (inst.pat || it.pat || 'solid');

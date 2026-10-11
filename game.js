@@ -87,6 +87,24 @@ const NAV_THEMES = [
   { id: 'goldendiya', name: 'Golden Diya Night', emoji: '🪔', tags: { desi: 3, festive: 2, formal: 1, diwali: 2 }, colors: ['#d4af37', '#ff9500', '#7a1f3d'], desc: 'Gold, glow and lamps everywhere.' },
 ];
 
+const FESTIVAL_THEMES = [
+  { id: 'holi', name: 'Holi Hai!', emoji: '🎨', tags: { holi: 3, festive: 2, casual: 1, desi: 1 }, colors: ['#ffffff', '#ff4fa3', '#34c759', '#ffd60a', '#5ab4ff'], desc: 'Festival of colors — wear white and get splashed.' },
+  { id: 'diwali', name: 'Diwali Night', emoji: '🪔', tags: { diwali: 3, desi: 2, festive: 2, formal: 1 }, colors: ['#d4af37', '#ff9500', '#e0245e', '#7a1f3d'], desc: 'Festival of lights — diyas, gold and sparkle.' },
+  { id: 'rakhi', name: 'Raksha Bandhan', emoji: '🧵', tags: { rakhi: 3, desi: 2, festive: 2, cute: 1 }, colors: ['#e0245e', '#ffd60a', '#ff9500'], desc: 'Rakhi, thali and sibling photoshoots.' },
+  { id: 'eid', name: 'Eid Mubarak', emoji: '🌙', tags: { eid: 3, elegant: 2, festive: 2, desi: 1 }, colors: ['#2d6a4f', '#ffffff', '#d4af37', '#c9a7ff'], desc: 'Moon-sighting glam — sharara, chaand and mehendi.' },
+  { id: 'sankranti', name: 'Makar Sankranti & Pongal', emoji: '🪁', tags: { harvest: 3, festive: 2, desi: 1, cute: 1 }, colors: ['#ffd60a', '#ff9500', '#34c759', '#bf5af2'], desc: 'Kites in the sky, pongal in the pot.' },
+  { id: 'onam', name: 'Onam', emoji: '🌸', tags: { onam: 3, desi: 2, festive: 1, elegant: 1 }, colors: ['#f5e6c8', '#d4af37', '#ffffff'], colorWeight: 2, desc: 'Kasavu cream & gold, jasmine in the hair.' },
+  { id: 'ganesh', name: 'Ganesh Chaturthi', emoji: '🐘', tags: { ganesh: 3, desi: 2, festive: 2 }, colors: ['#ff9500', '#e0245e', '#ffd60a', '#2d6a4f'], desc: 'Nauvari, pheta and plates of modak.' },
+  { id: 'karva', name: 'Karva Chauth', emoji: '🌕', tags: { karva: 3, wedding: 2, romantic: 2, desi: 1 }, colors: ['#e0245e', '#c2185b', '#d4af37'], colorWeight: 1.6, desc: 'Bridal red, chooda and the moon through a channi.' },
+  { id: 'lohri', name: 'Lohri Bonfire', emoji: '🔥', tags: { harvest: 3, winter: 1, desi: 2, festive: 1 }, colors: ['#e0245e', '#ff9500', '#ffd60a'], desc: 'Phulkari, paranda and dancing by the fire.' },
+  { id: 'baisakhi', name: 'Baisakhi', emoji: '🌾', tags: { harvest: 3, desi: 2, festive: 2, party: 1 }, colors: ['#ffd60a', '#ff9500', '#34c759'], desc: 'Harvest season bhangra — dhol, patiala & phulkari.' },
+  { id: 'janmashtami', name: 'Janmashtami', emoji: '🦚', tags: { krishna: 3, desi: 2, festive: 1, royal: 1 }, colors: ['#0a84ff', '#ffd60a', '#2d6a4f'], desc: 'Peacock feathers, flute and makhan matki.' },
+  { id: 'bihu', name: 'Rongali Bihu', emoji: '🥁', tags: { bihu: 3, desi: 2, festive: 1, cottage: 1 }, colors: ['#f5e6c8', '#c2185b', '#ffffff'], colorWeight: 1.6, desc: 'Mekhela chador, gamosa and spring dancing.' },
+  { id: 'teej', name: 'Hariyali Teej', emoji: '🌿', tags: { teej: 3, desi: 2, festive: 2, romantic: 1 }, colors: ['#34c759', '#2d6a4f', '#ffd60a'], colorWeight: 2, desc: 'Green lehariya, bangles and monsoon swings.' },
+  { id: 'independence', name: 'Independence Day', emoji: '🇮🇳', tags: { tiranga: 3, festive: 1, casual: 1, desi: 1 }, colors: ['#ff9933', '#ffffff', '#138808'], colorWeight: 2.2, desc: 'Saffron, white and green with pride.' },
+  { id: 'ugadi', name: 'Ugadi & Gudi Padwa', emoji: '🌼', tags: { desi: 3, festive: 2, cottage: 1, harvest: 1 }, colors: ['#ffd60a', '#2d6a4f', '#e0245e'], desc: 'New year, new silk, mango leaves at the door.' },
+];
+
 /* ---------- seasonal events ---------- */
 const look = (skin, slots, pose = 'victory') => ({ skin, height: 1, pose, slots });
 const EVENTS = {
@@ -134,7 +152,7 @@ const CODES = {
   BRATSUMMER: { tokens: { brat: 10 } }, LIMEGREEN: { tokens: { brat: 5 } }, CLUBCLASSICS: { tokens: { brat: 5 } },
   SPOOKY: { tokens: { halloween: 10 } }, TRICKORTREAT: { tokens: { halloween: 5 } },
   GARBA: { tokens: { navratri: 10 } }, DANDIYA: { tokens: { navratri: 5 } },
-  BADDIE: { passXp: 150 },
+  BADDIE: { passXp: 150 }, HOLI: { tokens: { navratri: 5 } }, UTSAV: { coins: 250 },
 };
 const REMOVABLE = new Set(['top', 'bottom', 'dress', 'outer', 'shoes', 'legwear', 'hat', 'glasses', 'neck', 'ears', 'bag', 'gloves', 'back', 'shadow', 'blush', 'facedeco']);
 const SLOT_LABEL = { hair: 'Hair', eyes: 'Eyes', brows: 'Brows', lips: 'Lips', shadow: 'Eyeshadow & Liner', blush: 'Blush', facedeco: 'Face Details', top: 'Tops', bottom: 'Bottoms', dress: 'Dresses & Sets', outer: 'Outerwear', shoes: 'Shoes', legwear: 'Socks & Tights', hat: 'Hats & Headwear', glasses: 'Glasses', neck: 'Necklaces', ears: 'Earrings', bag: 'Bags & Props', gloves: 'Gloves, Bangles & Nails', back: 'Wings, Capes & Drapes' };
@@ -540,6 +558,7 @@ function goMenu() {
   $('#menu-grid').innerHTML =
     card('classic', 'classic', `<span class="mc-icon">👗</span><b>Classic Runway</b><small>${THEMES.length} themes · swim, weddings & holidays · 7 rivals</small>`) +
     ev(EVENTS.halloween) + ev(EVENTS.navratri) +
+    card('festivals', 'festcard', `<span class="mc-badge">NEW</span><span class="mc-icon">🇮🇳</span><b>Festivals of India</b><small>${FESTIVAL_THEMES.length} festivals · Holi, Eid, Onam, Diwali, Bihu… · earn 🪔 diyas</small>`) +
     card('pass', 'passcard', `<span class="mc-badge">SEASON 1</span><span class="mc-icon">💅</span><b>Baddie Pass</b><small>Level ${passLevel()}/${PASS_TIERS} · ${save.pass.premium ? 'Premium unlocked' : 'free + premium rewards'}</small>`) +
     ev(EVENTS.brat) +
     card('free', '', '<span class="mc-icon">🪞</span><b>Wardrobe</b><small>Free play · no timer · photo mode</small>') +
@@ -550,7 +569,7 @@ function goMenu() {
     sfx('click');
     const a = b.dataset.act;
     if (a.startsWith('ev:')) return openEventHub(a.slice(3));
-    ({ classic: () => startRound('classic'), pass: openPass, free: () => enterDress(true), vip: openVip, codes: openCodes, howto: openHowTo })[a]();
+    ({ classic: () => startRound('classic'), festivals: () => startRound('festivals'), pass: openPass, free: () => enterDress(true), vip: openVip, codes: openCodes, howto: openHowTo })[a]();
   });
   const st = save.stats;
   $('#menu-stats').innerHTML = `<span>🏁 ${st.rounds} rounds</span><span>🏆 ${st.wins} wins</span><span>🥉 ${st.top3} podiums</span><span>⭐ best ${st.bestStars.toFixed(1)}</span>`;
@@ -632,6 +651,7 @@ function openHowTo() {
     <li><b>Get judged.</b> Pieces that match the theme, theme colors, a complete look (top+bottom or a dress, shoes) and accessories all score.</li>
     <li><b>Earn rewards.</b> Coins buy locked pieces 🪙, XP ranks you up from <i>Fashion Newbie</i> to <i>Top Model</i>.</li>
     <li><b>Seasons 🎃 🪔 💚</b> Walk seasonal runways to earn candy, diyas or brat tokens and unlock each season's collection. Finish quests for bonus tokens.</li>
+    <li><b>Festivals of India 🇮🇳</b> Holi, Diwali, Raksha Bandhan, Eid, Onam, Ganesh Chaturthi, Karva Chauth, Lohri, Baisakhi, Bihu, Teej, Independence Day and more — each with festive outfits. Earns 🪔 diyas too!</li>
     <li><b>Baddie Pass 💅</b> Every runway earns pass XP. Claim free rewards each level — or unlock Premium for the full baddie collection.</li>
   </ol>`, [{ label: 'Got it!' }]);
 }
@@ -640,20 +660,24 @@ function openHowTo() {
    ROUND: LOBBY
    ========================================================== */
 let G = null;
-const themesFor = mode => mode === 'classic' ? THEMES : EVENTS[mode].themes;
+const themesFor = mode => mode === 'classic' ? THEMES : mode === 'festivals' ? FESTIVAL_THEMES : EVENTS[mode].themes;
+// Festivals of India borrows the Navaratri look, music and diya rewards
+const lookFor = mode => EVENTS[mode] || (mode === 'festivals' ? EVENTS.navratri : null);
 function startRound(mode) {
   const theme = pick(themesFor(mode));
   const ev = EVENTS[mode];
   const names = shuffle(NPC_NAMES).slice(0, 7);
   const npcs = names.map(n => {
     const skill = clamp(Math.pow(Math.random(), .6) + (/noob/.test(n) ? -.6 : 0), 0, 1);
-    return { name: n, npc: true, skill, harsh: rand(-.45, .3), outfit: genOutfit(theme, skill, { allowEv: ev && Math.random() < .75 ? ev.id : null, allowPass: Math.random() < .3 }) };
+    const evPool = ev ? ev.id : mode === 'festivals' ? 'navratri' : null;
+    return { name: n, npc: true, skill, harsh: rand(-.45, .3), outfit: genOutfit(theme, skill, { allowEv: evPool && Math.random() < .75 ? evPool : null, allowPass: Math.random() < .3 }) };
   });
   G = { mode, theme, players: [{ name: save.name, me: true }, ...npcs], votes: {}, fast: false, aborted: false };
-  setMode(ev ? ev.id : '');
+  const lk = lookFor(mode);
+  setMode(lk ? lk.id : '');
   show('scr-lobby');
-  Sound.music(ev ? ev.music : 'chill');
-  $('#lobby-sub').textContent = ev ? `${ev.name} · ${ev.sub}` : 'Classic runway · 8 models';
+  Sound.music(lk ? lk.music : 'chill');
+  $('#lobby-sub').textContent = ev ? `${ev.name} · ${ev.sub}` : mode === 'festivals' ? '🇮🇳 Festivals of India · 8 models' : 'Classic runway · 8 models';
   const me = startingOutfit();
   $('#lobby-players').innerHTML = G.players.map((pl, i) => {
     const lk = pl.me ? me : pl.outfit;
@@ -702,7 +726,7 @@ function enterDress(free) {
     $('#others').innerHTML = '';
   } else {
     const ev = EVENTS[G.mode];
-    $('#dress-theme-label').textContent = ev ? `${ev.name} theme` : 'THEME';
+    $('#dress-theme-label').textContent = ev ? `${ev.name} theme` : G.mode === 'festivals' ? 'Festivals of India' : 'THEME';
     $('#dress-theme').textContent = `${G.theme.emoji} ${G.theme.name}`;
     $('#dress-theme-desc').textContent = G.theme.desc;
     $('#dress-timer').hidden = false;
@@ -712,7 +736,7 @@ function enterDress(free) {
   }
   $('#btn-ready').hidden = free;
   renderCats();
-  selectCat(free ? 'hair' : (G && EVENTS[G.mode] ? 'seasonal' : 'tops'));
+  selectCat(free ? 'hair' : (G && lookFor(G.mode) ? 'seasonal' : 'tops'));
   updatePreview();
 }
 function renderOthers() {
@@ -790,6 +814,9 @@ function renderGrid() {
       const ev = EVENTS[k], items = ITEMS.filter(i => i.ev === k).sort((a, b) => a.need - b.need);
       html += `<div class="season-banner ev-${k}"><b class="ev-font">${ev.icon} ${esc(ev.name)}</b><small>${items.filter(i => !lockInfo(i)).length}/${items.length} unlocked · you have ${ev.token} ${save.tokens[k]}</small></div><div class="grid">${items.map(tileHtml).join('')}</div>`;
     }
+    const festItems = ITEMS.filter(i => i.fest);
+    const festHtml = `<div class="season-banner festbanner"><b>🇮🇳 Festivals of India</b><small>${festItems.length} festive pieces · Holi, Eid, Onam, Diwali & more</small></div><div class="grid">${festItems.map(tileHtml).join('')}</div>`;
+    html = G && G.mode === 'festivals' ? festHtml + html : html + festHtml;
     const passItems = ITEMS.filter(i => i.pass).sort((a, b) => a.pass - b.pass);
     html += `<div class="season-banner passbanner"><b>💅 Baddie Pass</b><small>Level ${passLevel()} · claim rewards in the pass</small></div><div class="grid">${passItems.map(tileHtml).join('')}</div>`;
   } else {
@@ -1003,7 +1030,7 @@ const wait = ms => new Promise(r => {
   const iv = setInterval(() => { left -= (g && g.fast) ? step * 3 : step; if (left <= 0 || !g || g.aborted) { clearInterval(iv); r(); } }, step);
 });
 async function runRunway() {
-  const g = G, ev = EVENTS[g.mode];
+  const g = G, ev = lookFor(g.mode);
   show('scr-runway');
   $('#stage').dataset.stage = ev ? ev.id : 'classic';
   Sound.music(ev ? ev.music : 'runway');
@@ -1087,7 +1114,7 @@ function flash() {
 }
 function react(stars) {
   const pool = stars >= 4.2 ? ['😍', '🔥', '✨', '💖', '👑', '🤩', '💅'] : stars >= 3 ? ['👏', '🙂', '✨', '👍', '💕'] : ['😬', '🤔', '😐', '🫣', '💀'];
-  const ev = G && EVENTS[G.mode];
+  const ev = G && lookFor(G.mode);
   const pool2 = ev && stars >= 3.5 ? [...pool, ev.token, ev.token, ev.icon] : pool;
   const el = document.createElement('i');
   el.textContent = pick(pool2);
@@ -1114,7 +1141,7 @@ function addPassXp(n) {
   if (after > before) setTimeout(() => toast(`💅 Baddie Pass level ${after}! Claim your rewards`, 'pass-toast'), 900);
 }
 function showResults() {
-  const g = G, th = g.theme, ev = EVENTS[g.mode];
+  const g = G, th = g.theme, ev = EVENTS[g.mode], lk = lookFor(g.mode);
   for (const pl of g.players) pl.ev = evaluate(pl.outfit, th);
   for (const pl of g.players) {
     const votes = [];
@@ -1145,17 +1172,20 @@ function showResults() {
     es.rounds++; if (place === 1) es.wins++; if (place <= 3) es.top3++; if (me.score >= 4.5) es.five++;
     if (me.ev.evCount >= 5) es.fullfit++;
     addTokens(ev.id, tokens);
+  } else if (g.mode === 'festivals') {
+    tokens = 1 + (place <= 3 ? 1 : 0) + (place === 1 ? 1 : 0);
+    addTokens('navratri', tokens);
   }
   persist();
   const newRank = rankOf(save.xp)[1];
   show('scr-results');
-  Sound.music(ev ? ev.music : 'chill');
+  Sound.music(lk ? lk.music : 'chill');
   if (place <= 3) sfx('win'); else sfx('coin');
   const starRow = s => { const full = Math.round(s * 2) / 2; let h = ''; for (let i = 1; i <= 5; i++) h += `<i class="${full >= i ? 'f' : full >= i - .5 ? 'h' : ''}">★</i>`; return `<span class="srow">${h}</span>`; };
   const podium = [ranked[1], ranked[0], ranked[2]];
   $('#results').innerHTML = `
     <div class="res-head">
-      ${ev ? `<div class="ev-font res-ev">${ev.icon} ${esc(ev.name)}</div>` : ''}
+      ${ev ? `<div class="ev-font res-ev">${ev.icon} ${esc(ev.name)}</div>` : g.mode === 'festivals' ? '<div class="ev-font res-ev">🇮🇳 Festivals of India</div>' : ''}
       <div class="res-theme">${th.emoji} ${esc(th.name)}</div>
       <h2>${place === 1 ? '🏆 You won!' : place <= 3 ? `🎉 You placed #${place}!` : `You placed #${place}`}</h2>
     </div>
@@ -1171,7 +1201,7 @@ function showResults() {
           <div>
             <div class="big-stars">${starRow(me.score)} <b>${me.score.toFixed(2)}</b></div>
             <ul class="fb">${feedback(me.ev, th).map(f => `<li>${f}</li>`).join('')}</ul>
-            <div class="rewards"><span>🪙 +${coins}${save.vip ? ' <small>(VIP 2×)</small>' : ''}</span><span>⭐ +${xp} XP</span><span class="px">💅 +${passXp} pass XP</span>${ev ? `<span class="tk ev-${ev.id}">${ev.token} +${tokens}</span>` : ''}</div>
+            <div class="rewards"><span>🪙 +${coins}${save.vip ? ' <small>(VIP 2×)</small>' : ''}</span><span>⭐ +${xp} XP</span><span class="px">💅 +${passXp} pass XP</span>${tokens ? `<span class="tk ev-${lk.id}">${lk.token} +${tokens}</span>` : ''}</div>
             ${newRank !== oldRank ? `<div class="rankup">RANK UP! You're now a <b>${newRank}</b> 🎉</div>` : ''}
           </div>
         </div>
