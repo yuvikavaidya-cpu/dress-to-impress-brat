@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Dress to Impress — brat runway</title>
+  <title>Dress to Impress — seasons</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Creepster&family=Rozha+One&display=swap">
   <link rel="stylesheet" href="style.css">
 </head>
 <body data-screen="title">
@@ -19,7 +19,7 @@
       <div class="logo">
         <span class="logo-small">✨ fan-made ✨</span>
         <h1>Dress to <em>Impress</em></h1>
-        <div class="logo-brat brat-font">brat runway</div>
+        <div class="logo-seasons"><span class="ls ls-spooky">🎃 Spooky Season</span><span class="ls ls-nav">🪔 Navaratri</span><span class="ls ls-pass">💅 Baddie Pass</span><span class="ls ls-brat brat-font">brat</span></div>
       </div>
       <div id="title-models" class="title-models"></div>
       <form id="name-form" class="name-form" autocomplete="off">
@@ -32,27 +32,7 @@
 
   <!-- MENU -->
   <section id="scr-menu" class="screen" hidden>
-    <div class="menu-grid">
-      <button class="menu-card classic" data-act="classic">
-        <span class="mc-icon">👗</span><b>Classic Runway</b><small>Random theme · 7 rivals · vote on looks</small>
-      </button>
-      <button class="menu-card bratcard" data-act="brat">
-        <span class="mc-badge">EVENT</span>
-        <span class="brat-font mc-brat">brat</span><b>brat runway</b><small>2025 brat collection · earn 💚 to unlock</small>
-      </button>
-      <button class="menu-card" data-act="free">
-        <span class="mc-icon">🪞</span><b>Wardrobe</b><small>Free play · no timer · photo mode</small>
-      </button>
-      <button class="menu-card" data-act="vip">
-        <span class="mc-icon">👑</span><b>VIP Lounge</b><small>VIP pieces · double coins</small>
-      </button>
-      <button class="menu-card" data-act="codes">
-        <span class="mc-icon">🎟️</span><b>Codes</b><small>Redeem free rewards</small>
-      </button>
-      <button class="menu-card" data-act="howto">
-        <span class="mc-icon">❓</span><b>How to Play</b><small>Rules, stars & ranks</small>
-      </button>
-    </div>
+    <div id="menu-grid" class="menu-grid"></div>
     <div id="menu-stats" class="menu-stats"></div>
   </section>
 
@@ -106,6 +86,8 @@
     <div class="runway-stage" id="stage">
       <div class="stage-bg"></div>
       <div class="brat-wall brat-font" aria-hidden="true">brat</div>
+      <div class="moon" aria-hidden="true"></div><div class="bats" aria-hidden="true"><i>🦇</i><i>🦇</i><i>🦇</i><i>🦇</i></div><div class="fog" aria-hidden="true"></div>
+      <div class="toran" aria-hidden="true"></div><div class="diyas" aria-hidden="true"><i>🪔</i><i>🪔</i><i>🪔</i><i>🪔</i><i>🪔</i><i>🪔</i></div>
       <div class="lights"><i></i><i></i><i></i><i></i></div>
       <div class="runway-floor"></div>
       <div class="runway-top">
@@ -130,9 +112,14 @@
     <div id="results" class="results"></div>
   </section>
 
-  <!-- BRAT EVENT HUB -->
-  <section id="scr-brat" class="screen" hidden>
-    <div id="brat-hub" class="brat-hub"></div>
+  <!-- SEASONAL EVENT HUB -->
+  <section id="scr-event" class="screen" hidden>
+    <div id="event-hub" class="ev-hub"></div>
+  </section>
+
+  <!-- BADDIE PASS -->
+  <section id="scr-pass" class="screen" hidden>
+    <div id="pass" class="pass"></div>
   </section>
 
   <div id="modal" class="modal" hidden>

@@ -12,7 +12,7 @@ const HAIR_COLORS = ['#111111', '#3b2416', '#5a3825', '#8b5a2b', '#b5562b', '#e3
 const EYE_COLORS = ['#6b4226', '#3b2416', '#3a7bd5', '#2d9c5a', '#8f9aa5', '#a06cd5', '#e0245e', '#d4af37', '#111111', '#8ACE00'];
 const LIP_COLORS = ['#e07a8a', '#c2185b', '#e0245e', '#b5651d', '#7a1f3d', '#ff8fc8', '#d9a38e', '#111111', '#8ACE00', '#5e2a84'];
 const PALETTE = ['#111111', '#ffffff', '#8ACE00', '#ff4fa3', '#ff8fc8', '#e0245e', '#ff3b30', '#ff9500', '#ffd60a', '#fff3b0', '#34c759', '#b8f2c9', '#2ec4b6', '#5ab4ff', '#0a84ff', '#1d3557', '#5e5ce6', '#c9a7ff', '#bf5af2', '#7a1f3d', '#a2845e', '#f5e6c8', '#c0c0c0', '#d4af37'];
-const PATTERNS = ['solid', 'stripes', 'diag', 'polka', 'check', 'plaid', 'leopard', 'zebra', 'hearts', 'stars', 'flowers', 'sparkle', 'denim', 'mesh'];
+const PATTERNS = ['solid', 'stripes', 'diag', 'polka', 'check', 'plaid', 'leopard', 'zebra', 'hearts', 'stars', 'flowers', 'sparkle', 'denim', 'mesh', 'mirror', 'paisley', 'bandhani', 'web', 'snow'];
 
 /* ---------- tiny SVG helpers ---------- */
 const OL = 'stroke="#2b1a24" stroke-opacity=".5" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"';
@@ -67,6 +67,11 @@ function patternDef(id, pat, c1, c2) {
     case 'sparkle': return W(16, 16, `<path d="${sparkle(4, 4, 3)}" fill="${c2}" opacity=".9"/><path d="${sparkle(12, 11, 2.2)}" fill="${c2}" opacity=".8"/><circle cx="12" cy="3" r=".9" fill="${c2}"/><circle cx="3" cy="13" r=".8" fill="${c2}"/>`);
     case 'denim': return W(6, 6, `<path d="M0,6 L6,0 M-1,1 L1,-1 M5,7 L7,5" stroke="${c2}" stroke-width="1" opacity=".45"/>`);
     case 'mesh': return W(7, 7, `<path d="M0,0 L7,7 M7,0 L0,7" stroke="${c2}" stroke-width=".9"/>`, '', `<rect width="7" height="7" fill="${c1}" opacity=".3"/>`);
+    case 'mirror': return W(18, 18, `<circle cx="9" cy="9" r="4" fill="#e8eef5" stroke="${c2}" stroke-width="1.6"/><circle cx="0" cy="0" r="2" fill="${c2}"/><circle cx="18" cy="18" r="2" fill="${c2}"/><circle cx="18" cy="0" r="2" fill="${c2}"/><circle cx="0" cy="18" r="2" fill="${c2}"/>`);
+    case 'paisley': return W(24, 24, `<path d="M8,16 C2,14 2,6 8,4 C14,2 16,10 12,14 C10,16 9,18 12,21 C7,21 6,18 8,16 Z" fill="${c2}"/><circle cx="9" cy="9" r="1.6" fill="${c1}"/><circle cx="19" cy="6" r="1.4" fill="${c2}"/><circle cx="20" cy="18" r="1" fill="${c2}"/>`);
+    case 'bandhani': return W(14, 14, `<g fill="${c2}"><circle cx="3" cy="3" r="1"/><circle cx="5.5" cy="3" r="1"/><circle cx="4.2" cy="5.2" r="1"/><circle cx="10" cy="10" r="1"/><circle cx="12.5" cy="10" r="1"/><circle cx="11.2" cy="12.2" r="1"/></g>`);
+    case 'web': return W(40, 40, `<g stroke="${c2}" stroke-width=".8" fill="none"><path d="M20,0 L20,40 M0,20 L40,20 M0,0 L40,40 M40,0 L0,40"/><path d="M20,12 L28,20 L20,28 L12,20 Z"/><path d="M20,5 L35,20 L20,35 L5,20 Z"/></g>`, '', `<rect width="40" height="40" fill="${c1}" opacity=".3"/>`);
+    case 'snow': return W(22, 22, `<g stroke="${c2}" stroke-width="1.2" stroke-linecap="round"><path d="M11,6 L11,16 M6.7,8.5 L15.3,13.5 M6.7,13.5 L15.3,8.5"/></g><circle cx="2" cy="20" r="1" fill="${c2}"/><circle cx="20" cy="2" r="1" fill="${c2}"/>`);
     default: return '';
   }
 }
@@ -156,8 +161,27 @@ function I(slot, id, name, tags, draw, o = {}) {
   ITEMS.push({
     slot, id, name, tags, draw,
     c1: o.c1 || '#ff4fa3', c2: o.c2 || '#ffffff', pat: o.pat || 'solid',
-    price: o.price || 0, vip: !!o.vip, brat: o.brat, noPat: !!o.noPat, two: !!o.two,
+    price: o.price || 0, vip: !!o.vip, noPat: !!o.noPat, two: !!o.two,
+    // seasonal event items unlock with that event's tokens; pass items are claimed from the Baddie Pass
+    ev: o.ev || (o.brat !== undefined ? 'brat' : undefined), need: o.need ?? o.brat ?? 0,
+    pass: o.pass || 0, prem: !!o.prem,
   });
+}
+// straight column skirt that starts below the hips
+function straight(yW, yE, flare = 0, pad = 2) {
+  const x = r1(hw(yW) + pad);
+  return `M${r1(150 - x)},${yW} L${r1(150 + x)},${yW} L${r1(150 + x + flare)},${yE} Q150,${yE + 4} ${r1(150 - x - flare)},${yE} Z`;
+}
+// skirt with a ragged, tattered hem
+function jaggedSkirt(yW, yE, flare, amp = 16) {
+  const yh = Math.min(yE, 322);
+  const R = range(yW, yh).map(y => [r1(150 + hw(y) + 2), y]);
+  const xr = r1(150 + hw(yh) + 2 + flare);
+  R.push([xr, yE]);
+  const hem = [];
+  for (let i = 1; i < 10; i++) hem.push([r1(xr - (2 * xr - 300) * i / 10), i % 2 ? yE - amp : yE + 4]);
+  const Lr = R.map(([x, y]) => [r1(300 - x), y]).reverse();
+  return 'M' + [[r1(300 - R[0][0]), yW], ...R, ...hem, ...Lr].map(q => q.join(',')).join(' L') + ' Z';
 }
 const bratText = (x, y, size, col, uid, mirrored) =>
   `<text x="${x}" y="${y}" text-anchor="middle" font-family="'Arial Narrow',Arial,Helvetica,sans-serif" font-size="${size}" fill="${col}" filter="url(#${uid}-blur)" transform="translate(${x} 0) scale(${mirrored ? -.86 : .86} 1) translate(${-x} 0)">brat</text>`;
@@ -234,11 +258,11 @@ const EYE = {
   'e-cat': { w: 'M127,100 Q135,90 145,96 Q138,105 127,100 Z', lid: 'M126,100 Q135,89 146,95 L151,90' },
   'e-sleepy': { w: 'M128,99 Q136,95 144,99 Q136,105 128,99 Z', lid: 'M127,99 Q136,93 145,99', iy: 101 },
   'e-sparkle': { w: 'M127,98 A9,10.5 0 1,0 145,98 A9,10.5 0 1,0 127,98 Z', lid: 'M126,93 Q136,83 146,92 M127,92 L122,89', ir: 7, lw: 2.8 },
-  'e-doe': { w: 'M128,99 A8,9 0 1,0 144,99 A8,9 0 1,0 128,99 Z', lid: 'M127,95 Q136,85 145,94 M128,94 L124,90 M130,107 L128,110 M134,108 L133,111', ir: 5.6 },
+  'e-doe': { w: 'M128,99 A8,9 0 1,0 144,99 A8,9 0 1,0 128,99 Z', lid: 'M127,95 Q136,85 145,94 M128,94 L124,90', ir: 5.6 },
 };
 function eyeMarkup(P, e, onlyLeft) {
   const cid = P.uid + '-eye', iy = e.iy || 99, ir = e.ir || 4.6;
-  const one = `<path d="${e.w}" fill="#fff"/><g clip-path="url(#${cid})"><circle cx="136" cy="${iy}" r="${ir}" fill="${P.c1}"/><circle cx="136" cy="${iy}" r="${r1(ir * .48)}" fill="#140a10"/><circle cx="134.2" cy="${iy - 2.2}" r="${r1(ir * .32)}" fill="#fff"/>${ir > 6 ? `<circle cx="138.5" cy="${iy + 2.5}" r="1.3" fill="#fff"/>` : ''}</g><path d="${e.lid}" fill="none" stroke="#1a1018" stroke-width="${e.lw || 2.2}" stroke-linecap="round"/>`;
+  const one = `<path d="${e.w}" fill="#fff"/><g clip-path="url(#${cid})"><circle cx="136" cy="${iy}" r="${ir}" fill="${P.c1}" stroke="${shade(P.c1, -45)}" stroke-width=".9"/><circle cx="136" cy="${iy}" r="${r1(ir * .48)}" fill="#140a10"/><circle cx="134.2" cy="${iy - 2.2}" r="${r1(ir * .32)}" fill="#fff"/>${ir > 6 ? `<circle cx="138.5" cy="${iy + 2.5}" r="1.3" fill="#fff"/>` : ''}</g><path d="${e.lid}" fill="none" stroke="#1a1018" stroke-width="${e.lw || 2.2}" stroke-linecap="round"/>`;
   return `<clipPath id="${cid}"><path d="${e.w}"/></clipPath>` + (onlyLeft ? one : both(one));
 }
 const EYE_NAMES = { 'e-round': ['Round', ['cute']], 'e-almond': ['Almond', ['elegant', 'romantic']], 'e-cat': ['Cat Eye', ['edgy', 'elegant', 'goth']], 'e-sleepy': ['Sleepy', ['cozy', 'casual']], 'e-sparkle': ['Sparkle', ['cute', 'pop', 'fairy']], 'e-doe': ['Doe', ['cute', 'romantic', 'cottage']] };
@@ -343,7 +367,7 @@ Dr('witch', 'Witchy Gown', ['goth', 'spooky', 'fairy'], P => ({ main: p(torso(16
 Dr('bubble', 'Bubble Dress', ['y2k', 'pop', 'party', 'cute'], P => ({ main: p(torso(182, 282), P.f) + p(skirt(280, 342, 24, { hem: -8 }), P.f) + straps(P.c1) }), { c1: '#ff4fa3' });
 Dr('nightgown', 'Nightgown', ['cozy', 'cute', 'romantic'], P => ({ main: p(torso(180, 264, { neck: 'scoop' }), P.f) + p(skirt(264, 440, 20), P.f), arm: p(SLV.puff, P.f) }), { c1: '#ffffff', pat: 'hearts', c2: '#ffc8e8' });
 Dr('jumpsuit', 'Space Jumpsuit', ['futuristic', 'sporty', 'edgy'], P => ({ main: p(pants(266, 532, { pad: 3 }), P.f) + p(torso(158, 300, { neck: 'turtle', pad: 3 }), P.f) + ln('M150,130 L150,330', P.d, 2, .7), arm: p(SLV.long, P.f) + cuff(P.d) }), { c1: '#c0c0c0', price: 350 });
-Dr('column', 'Column Gown', ['formal', 'elegant', 'royal'], P => ({ main: p(torso(184, 332), P.f) + p(skirt(330, 552, 14), P.f) + p('M160,184 L170,158 L178,160 L172,186 Z', P.f) }), { c1: '#111111', price: 600 });
+Dr('column', 'Column Gown', ['formal', 'elegant', 'royal'], P => ({ main: p(torso(184, 332), P.f) + p(straight(330, 552, 14), P.f) + p('M160,184 L170,158 L178,160 L172,186 Z', P.f) }), { c1: '#111111', price: 600 });
 Dr('ballgown', 'Ball Gown', ['royal', 'formal', 'elegant', 'romantic'], P => ({ main: p(torso(190, 268, { neck: 'sweet' }), P.f) + p(skirt(266, 552, 80, { hem: 8 }), P.f) + ln('M120,330 Q118,440 96,540', P.d, 1.4, .4) + ln('M180,330 Q182,440 204,540', P.d, 1.4, .4) }), { c1: '#5e5ce6', vip: true });
 Dr('mermaid', 'Mermaid Gown', ['formal', 'elegant', 'party', 'royal'], P => ({ main: p(torso(186, 420, { neck: 'sweet', pad: 1 }), P.f) + p(`M${r1(150 - hw(410) - 1)},410 L${r1(150 + hw(410) + 1)},410 L240,552 Q150,562 60,552 Z`, P.f) }), { c1: '#c0c0c0', pat: 'sparkle', c2: '#ffffff', price: 900 });
 Dr('bratslip', 'brat slip dress', ['brat', 'party', 'elegant', 'summer'], P => ({ main: p(torso(186, 264, { neck: 'v' }), P.f) + p(skirt(262, 404, 14), P.f) + straps(P.c1) + ln('M118,280 Q130,340 122,396', '#fff', 2, .35) }), { c1: BRAT, brat: 12 });
@@ -485,6 +509,130 @@ Bk('devil', 'Devil Wings', ['goth', 'spooky', 'edgy'], P => both(p('M128,200 L44
 Bk('cape', 'Royal Cape', ['royal', 'formal', 'spooky'], P => p('M106,160 L194,160 L236,544 Q150,558 64,544 Z', P.f), { c1: '#7a1f3d', vip: true });
 Bk('glowwings', 'lime glow wings', ['brat', 'party', 'fairy', 'futuristic'], P => `<g filter="url(#${P.uid}-glow)" opacity=".7">${FAIRY(P, .9)}</g>` + FAIRY(P, .55), { c1: BRAT, noPat: true, brat: 33 });
 
+
+/* ===== SWIM ===== */
+Dr('swimsuit', 'One-Piece Swimsuit', ['swim', 'beach', 'summer', 'sporty'], P => ({ main: p(torso(178, 324, { neck: 'scoop', hem: 22 }), P.f) + straps(P.c1) }), { c1: '#2ec4b6' });
+B('bikinibottom', 'Bikini Bottom', ['swim', 'beach', 'summer'], P => p(`M${r1(150 - hw(300) - .6)},300 L${r1(150 + hw(300) + .6)},300 L${r1(150 + hw(318) + .6)},318 L156,342 L144,342 L${r1(150 - hw(318) - .6)},318 Z`, P.f), { c1: '#ff4fa3', pat: 'polka', c2: '#ffffff' });
+B('boardshorts', 'Board Shorts', ['swim', 'beach', 'summer', 'sporty'], P => p(pants(272, 392, { pad: 6 }), P.f) + both(ln('M101,280 L111,392', P.c2, 3, 1)), { c1: '#0a84ff', c2: '#ffffff', pat: 'flowers' });
+B('sarong', 'Sarong Wrap', ['swim', 'beach', 'summer', 'cottage'], P => p(skirt(292, 470, 12), P.f) + p('M176,292 L194,300 L188,330 L174,318 Z', P.f) + circ(182, 300, 4, P.d), { c1: '#ff9500', c2: '#ffd60a', pat: 'flowers' });
+Tp('rashguard', 'Rash Guard', ['swim', 'sporty', 'beach'], P => ({ main: p(torso(156, 300, { neck: 'crew', pad: 1 }), P.f) + ln('M104,200 L196,200', P.c2, 4, 1), arm: p(SLV.long, P.f) + ln('M78,200 L101,206', P.c2, 4, 1) }), { c1: '#1d3557', c2: '#2ec4b6', two: true });
+Ht('sunhat', 'Floppy Sun Hat', ['swim', 'beach', 'summer', 'elegant'], P => `<ellipse cx="150" cy="64" rx="76" ry="14" fill="${P.f}" ${OL}/>` + p('M116,64 Q116,30 150,30 Q184,30 184,64 Z', P.f) + p('M116,54 Q150,60 184,54 L184,62 Q150,68 116,62 Z', P.c2), { c1: '#f5e6c8', c2: '#111111', two: true });
+Ht('swimcap', 'Swim Cap', ['swim', 'sporty'], P => p('M112,92 Q108,36 150,34 Q192,36 188,92 Q150,80 112,92 Z', P.f) + circ(178, 52, 7, P.c2, OL) + circ(178, 52, 2.5, '#ffd60a'), { c1: '#ff8fc8', c2: '#ffffff', two: true });
+Gs('goggles', 'Swim Goggles', ['swim', 'sporty'], P => both(`<rect x="124" y="90" width="23" height="15" rx="7" fill="${P.f}" fill-opacity=".75" stroke="#222" stroke-width="2"/>` + ln('M124,98 L114,96', '#222', 3, 1)) + bridge('#222'), { c1: '#5ab4ff' });
+S('flipflops', 'Flip Flops', ['swim', 'beach', 'summer', 'casual'], P => p('M122,544 L148,544 L149,554 Q136,558 121,554 Z', P.f) + ln('M125,544 L135,531 L145,544', P.c2, 2.4, 1), { c1: '#ffd60a', c2: '#ff4fa3', two: true });
+Bg('floatie', 'Pool Floatie', ['swim', 'beach', 'summer', 'cute'], P => `<path d="M50,356 a28,28 0 1,0 56,0 a28,28 0 1,0 -56,0 Z M66,356 a12,12 0 1,1 24,0 a12,12 0 1,1 -24,0 Z" fill="${P.f}" fill-rule="evenodd" ${OL}/>` + [[58, 344], [96, 346], [62, 372], [94, 370], [78, 332]].map(([x, y], i) => `<rect x="${x}" y="${y}" width="6" height="2.4" rx="1" fill="${['#fff', '#ffd60a', '#5ab4ff'][i % 3]}" transform="rotate(${i * 40} ${x} ${y})"/>`).join(''), { c1: '#ff8fc8' });
+
+/* ===== WEDDING ===== */
+Dr('weddinggown', 'Wedding Gown', ['wedding', 'formal', 'elegant', 'romantic', 'royal'], P => ({
+  back: `<path d="M70,520 Q150,500 230,520 L278,566 Q150,580 22,566 Z" fill="${P.f}" ${OL}/>`,
+  main: p(torso(188, 270, { neck: 'sweet' }), P.f) + p(skirt(268, 556, 92, { hem: 10 }), P.f) + both(ln('M118,330 Q108,440 84,540', P.d, 1.2, .35)) + range(122, 178, 8).map(x => circ(x, 272, 1.6, '#fff', 'opacity=".9"')).join(''),
+}), { c1: '#fffdf6', price: 800 });
+Ht('veil', 'Bridal Veil', ['wedding', 'romantic', 'elegant'], P => ({
+  back: `<path d="M118,58 Q150,40 182,58 L238,452 Q150,474 62,452 Z" fill="${P.c1}" fill-opacity=".38" stroke="#fff" stroke-width="1.2"/>`,
+  main: ln('M116,62 Q150,40 184,62', P.c2, 3.4, 1) + [122, 136, 150, 164, 178].map((x, i) => circ(x, i === 2 ? 44 : (i % 2 ? 48 : 56), 4, '#fff', OL)).join(''),
+}), { c1: '#ffffff', c2: '#e6e6f0', noPat: true });
+Dr('bridesmaid', 'Bridesmaid Dress', ['wedding', 'romantic', 'elegant', 'formal'], P => ({ main: p(torso(184, 262, { neck: 'v' }), P.f) + p(skirt(262, 478, 26), P.f) + straps(P.c1) + ln('M150,262 Q148,380 156,476', P.d, 1.2, .35) }), { c1: '#c9a7ff' });
+O('tux', 'Tuxedo Jacket', ['wedding', 'formal', 'elegant', 'office'], P => ({ main: both(p(jacketHalf(330, 8, { close: 236 }), P.f) + p('M138,152 L142,236 L120,192 Z', P.c2)) + circ(146, 262, 2.6, '#333'), arm: p(SLV.long, P.f) + ln('M66,316 L89,318', '#fff', 3, 1) }), { c1: '#111111', c2: '#2a2a2a', two: true, price: 400 });
+
+/* ===== HOLIDAYS ===== */
+Ht('santahat', 'Santa Hat', ['christmas', 'winter', 'cozy', 'cute'], P => p('M114,72 Q118,28 158,24 Q200,30 206,92 L196,94 Q192,54 176,48 Q186,58 186,72 Z', P.f) + `<rect x="108" y="64" width="84" height="16" rx="8" fill="#fff" ${OL}/>` + circ(202, 96, 9, '#fff', OL), { c1: '#e0245e' });
+Ht('elfhat', 'Elf Hat', ['christmas', 'cute', 'pop'], P => p('M114,70 L192,70 Q176,40 200,18 Q160,22 140,42 Q122,54 114,70 Z', P.f) + `<rect x="110" y="64" width="84" height="12" rx="5" fill="${P.c2}" ${OL}/>` + circ(201, 18, 5, '#ffd60a', OL), { c1: '#2d6a4f', c2: '#e0245e', two: true });
+Ht('antlers', 'Reindeer Antlers', ['christmas', 'cute', 'winter'], P => both(ln('M128,60 Q120,36 112,14 M120,36 Q108,32 100,22 M116,26 Q124,18 126,8', P.c1, 4.5, 1)) + ln('M114,66 Q150,42 186,66', '#222', 3.5, 1), { c1: '#8b5a2b', noPat: true });
+Ht('partyhat', 'Party Hat', ['newyear', 'party', 'pop', 'cute'], P => p('M130,62 L150,6 L170,62 Z', P.f) + circ(150, 6, 6, P.c2, OL), { c1: '#bf5af2', c2: '#ffd60a', pat: 'stripes', two: true });
+Ht('cloverband', 'Lucky Clover Band', ['lucky', 'cute', 'pop'], P => ln('M114,66 Q150,42 186,66', P.c1, 4, 1) + both(circ(126, 34, 6, P.c1, OL) + circ(120, 41, 6, P.c1, OL) + circ(132, 41, 6, P.c1, OL) + ln('M126,44 L128,58', P.d, 2, 1)), { c1: '#34c759', noPat: true });
+Gs('nyeglasses', 'New Year Glasses', ['newyear', 'party', 'pop'], P => `<text x="150" y="108" text-anchor="middle" font-family="'Arial Black',Arial,sans-serif" font-weight="900" font-size="31" fill="${P.c1}" stroke="#222" stroke-width="1">2027</text>`, { c1: '#ffd60a', noPat: true });
+Bg('candycane', 'Candy Cane', ['christmas', 'cute'], P => `<path d="M77,372 L77,300 Q77,284 92,284 Q107,284 107,300" fill="none" stroke="#fff" stroke-width="7" stroke-linecap="round"/><path d="M77,372 L77,300 Q77,284 92,284 Q107,284 107,300" fill="none" stroke="${P.c1}" stroke-width="7" stroke-dasharray="5 6"/>`, { c1: '#e0245e', noPat: true });
+Bg('giftbox', 'Gift Box', ['christmas', 'party', 'cute'], P => `<rect x="56" y="336" width="44" height="38" rx="3" fill="${P.f}" ${OL}/><rect x="74" y="336" width="8" height="38" fill="${P.c2}"/><rect x="56" y="350" width="44" height="8" fill="${P.c2}"/>` + p('M78,336 Q64,322 70,318 Q78,318 78,336 Q78,318 86,318 Q92,322 78,336 Z', P.c2), { c1: '#2d6a4f', c2: '#e0245e', two: true });
+Bg('easterbasket', 'Easter Basket', ['easter', 'cottage', 'cute'], P => `<path d="M58,348 Q78,312 98,348" fill="none" stroke="${P.d}" stroke-width="3"/>` + [[66, 344, '#ff8fc8'], [78, 340, '#9ad7ff'], [90, 344, '#fff3b0']].map(([x, y, c]) => `<ellipse cx="${x}" cy="${y}" rx="6" ry="8" fill="${c}" ${OL}/>`).join('') + p('M54,346 L102,346 L96,376 L60,376 Z', P.f) + ln('M56,356 L100,356 M58,366 L98,366', P.d, 1.4, .6), { c1: '#c8a878' });
+Bg('lantern', 'Red Lantern', ['lunar', 'festive', 'romantic'], P => ln('M78,330 L78,346', '#222', 1.4, 1) + `<rect x="64" y="344" width="28" height="5" rx="2" fill="#d4af37"/><ellipse cx="78" cy="366" rx="20" ry="18" fill="${P.f}" ${OL}/><rect x="64" y="382" width="28" height="5" rx="2" fill="#d4af37"/>` + ln('M78,348 L78,384 M68,350 Q62,366 68,382 M88,350 Q94,366 88,382', P.d, 1, .6) + ln('M78,387 L78,402', '#ffd60a', 2.5, 1), { c1: '#e0245e' });
+Bg('diya', 'Diya Lamp', ['diwali', 'desi', 'festive'], P => p('M62,318 Q78,334 94,318 Q90,312 78,314 Q66,312 62,318 Z', P.f) + `<circle cx="78" cy="302" r="10" fill="#ffd60a" opacity=".35" filter="url(#${P.uid}-soft)"/><path d="M78,312 Q72,302 78,290 Q84,302 78,312 Z" fill="#ffd60a"/>`, { c1: '#b5562b' });
+Bg('sparkler', 'Sparkler', ['newyear', 'party', 'diwali'], P => ln('M78,334 L78,270', '#777', 2.4, 1) + `<g filter="url(#${P.uid}-soft)">${circ(78, 266, 9, P.c1, 'opacity=".8"')}</g><path d="${star(78, 266, 14, 3)}" fill="#fff3b0"/>`, { c1: '#ffd60a', noPat: true });
+Dr('qipao', 'Qipao Dress', ['lunar', 'elegant', 'formal'], P => ({ main: p(torso(158, 332, { neck: 'turtle', pad: 1 }), P.f) + p(straight(330, 452, 4, 1), P.f) + ln('M137,136 Q146,150 152,170', P.c2, 2, 1) + [150, 160, 170].map(y => ln(`M146,${y} L156,${y + 2}`, P.c2, 2, 1)).join('') + ln('M188,420 L186,452', P.d, 1.4, .8), arm: p(SLV.cap, P.f) }), { c1: '#e0245e', c2: '#d4af37', two: true });
+Dr('santadress', 'Santa Dress', ['christmas', 'party', 'cute', 'winter'], P => ({ main: p(torso(172, 262, { neck: 'sweet' }), P.f) + p(skirt(262, 352, 22), P.f) + ln(`M${r1(150 - hw(322) - 24)},350 Q150,360 ${r1(150 + hw(322) + 24)},350`, '#fff', 9, 1) + ln('M104,172 Q150,182 196,172', '#fff', 8, 1) + ln('M110,262 L190,262', '#111', 7, 1) + `<rect x="143" y="256" width="14" height="12" fill="none" stroke="#ffd60a" stroke-width="2.4"/>`, arm: p(SLV.long, P.f) + ln('M66,316 L89,318', '#fff', 7, 1) }), { c1: '#e0245e' });
+Tp('uglysweater', 'Holiday Sweater', ['christmas', 'cozy', 'winter'], P => ({ main: p(torso(158, 318, { neck: 'crew', pad: 5 }), P.f) + p(star(150, 220, 12), '#ffd60a') + ln('M104,300 L196,300', P.c2, 5, 1), arm: p(SLV.long, P.f) + cuff(P.c2) }), { c1: '#2d6a4f', c2: '#ffffff', pat: 'snow' });
+
+/* ===== HALLOWEEN — Spooky Season (🍬 candy) ===== */
+const EV = (ev, need) => ({ ev, need });
+Ht('horns', 'Devil Horns', ['spooky', 'goth', 'party', 'edgy'], P => both(p('M128,60 Q114,42 120,20 Q130,40 140,54 Z', P.f)) + ln('M114,66 Q150,44 186,66', '#222', 3, 1), { c1: '#e0245e', noPat: true, ...EV('halloween', 0) });
+E('candycorn', 'Candy Corn Earrings', ['spooky', 'cute'], () => p('M116,110 L110,128 L122,128 Z', '#ffffff') + p('M112,122 L120,122 L122,128 L110,128 Z', '#ffd60a') + p('M114,116 L118,116 L120,122 L112,122 Z', '#ff9500'), EV('halloween', 1));
+I('lips', 'l-fangs', 'Vampire Fangs', ['spooky', 'goth'], P => p('M141,119 Q150,127 159,119 Q150,122 141,119 Z', P.c1) + p('M144,120.6 L145.6,126 L147.6,121.4 Z', '#fff', 'stroke-width=".4"') + p('M152.4,121.4 L154.4,126 L156,120.6 Z', '#fff', 'stroke-width=".4"'), { noPat: true, c1: '#7a1f3d', ...EV('halloween', 2) });
+MK('facedeco', 'fd-stitches', 'Stitched Face', ['spooky', 'goth', 'edgy'], () => ln('M118,104 L140,116 M122,103 L120,109 M128,106 L126,112 M134,109 L132,115 M160,124 L176,132 M164,122 L163,128 M170,125 L169,131', '#4a1a2a', 1.4, .9), EV('halloween', 3));
+W('webtights', 'Spiderweb Tights', ['spooky', 'goth', 'edgy'], P => p(leg(318, 530, .4), P.f) + p(FOOT, P.f), { c1: '#111111', c2: '#111111', pat: 'web', ...EV('halloween', 5) });
+Dr('pumpkindress', 'Pumpkin Dress', ['spooky', 'cute', 'party'], P => ({ main: p(torso(178, 252, { neck: 'sweet' }), P.f) + p('M104,248 Q58,300 94,374 Q150,396 206,374 Q242,300 196,248 Z', P.f) + ln('M128,252 Q112,312 124,382 M150,252 L150,390 M172,252 Q188,312 176,382', P.d, 1.6, .6) + p('M140,176 Q150,164 160,176 Q150,184 140,176 Z', '#2d6a4f') + straps(P.c1) }), { c1: '#ff9500', ...EV('halloween', 7) });
+Bk('vampcape', 'Vampire Cape', ['spooky', 'goth', 'royal', 'formal'], P => p('M104,158 L196,158 L242,544 Q150,560 58,544 Z', P.f) + both(p('M140,150 L100,96 L112,156 Z', P.c2)), { c1: '#111111', c2: '#7a1f3d', two: true, ...EV('halloween', 9) });
+Dr('ghostgown', 'Ghostly Gown', ['spooky', 'fairy', 'goth'], P => ({ main: p(torso(164, 264, { neck: 'scoop' }), P.f, 'fill-opacity=".92"') + p(jaggedSkirt(262, 524, 44), P.f, 'fill-opacity=".85"'), arm: p(SLV.bell, P.f, 'fill-opacity=".85"') }), { c1: '#eef0ff', ...EV('halloween', 11) });
+Dr('skeleton', 'Skeleton Bodysuit', ['spooky', 'goth', 'edgy', 'party'], P => ({ main: p(pants(266, 530, { pad: .5 }), P.f) + p(torso(158, 300, { neck: 'turtle', pad: .5 }), P.f) + ln('M150,186 L150,300', P.c2, 4, 1) + both([198, 212, 226, 240].map(y => ln(`M148,${y} Q134,${y - 5} 120,${y + 3}`, P.c2, 3, 1)).join('') + ln('M130,340 L134,518', P.c2, 4.5, 1)) + p('M134,296 Q150,312 166,296 L162,318 Q150,326 138,318 Z', P.c2), arm: p(SLV.long, P.f) + ln('M88,198 L80,314', P.c2, 3.4, 1) }), { c1: '#111111', c2: '#f4f4f8', two: true, ...EV('halloween', 13) });
+S('witchboots', 'Witchy Boots', ['spooky', 'goth', 'fairy'], P => p('M120,468 L149,468 L148,542 Q146,552 136,554 L108,560 Q114,548 122,544 Z', P.f) + `<rect x="126" y="500" width="18" height="10" fill="none" stroke="#d4af37" stroke-width="2"/>`, { c1: '#2a1438', ...EV('halloween', 15) });
+N('spiderneck', 'Spider Necklace', ['spooky', 'goth'], () => ln('M134,158 Q150,190 166,158', '#c0c0c0', 1.2, 1) + ln('M144,178 L138,174 M144,182 L137,183 M144,186 L139,190 M156,178 L162,174 M156,182 L163,183 M156,186 L161,190', '#111', 1.4, 1) + circ(150, 182, 6, '#111') + circ(150, 175, 3.5, '#111'), { noPat: true, ...EV('halloween', 18) });
+Bg('scythe', 'Reaper Scythe', ['spooky', 'goth'], () => ln('M78,236 L78,420', '#5b3a29', 3.5, 1) + p('M78,238 Q36,232 18,268 Q44,250 78,252 Z', '#c0c0c0'), { noPat: true, ...EV('halloween', 21) });
+Dr('mummy', 'Mummy Wraps', ['spooky', 'edgy'], P => {
+  const t = torso(158, 352, { neck: 'crew', pad: 1 }), lg = leg(340, 528, .8);
+  return {
+    main: `<clipPath id="${P.uid}-mum"><path d="${t}"/><path d="${lg}"/><path d="${lg}" transform="translate(300 0) scale(-1 1)"/></clipPath>` + p(t, P.f) + both(p(lg, P.f)) +
+      `<g clip-path="url(#${P.uid}-mum)">${range(160, 528, 12).map((y, i) => ln(`M90,${y} L210,${y + (i % 2 ? 9 : -6)}`, P.d, 1.3, .55)).join('')}</g>`,
+    arm: p(SLV.long, P.f) + ln('M72,230 L94,236 M70,260 L92,264 M68,290 L90,294', P.d, 1.2, .55),
+  };
+}, { c1: '#efe6d2', ...EV('halloween', 24) });
+Ht('mooncrown', 'Moon Witch Crown', ['spooky', 'fairy', 'goth', 'royal'], P => p('M118,62 L122,40 L136,52 L150,30 L164,52 L178,40 L182,62 Z', P.f) + p('M150,6 A13,13 0 1,0 163,28 A10,10 0 1,1 150,6 Z', P.c2), { c1: '#2a1438', c2: '#ffd60a', two: true, ...EV('halloween', 27) });
+
+/* ===== NAVARATRI — Navaratri Utsav (🪔 diyas) ===== */
+MK('facedeco', 'fd-bindi', 'Bindi', ['desi', 'festive', 'elegant'], P => circ(150, 80, 2.8, P.c1) + circ(150, 86, 1, '#d4af37'), { c1: '#e0245e', ...EV('navratri', 0) });
+E('jhumka', 'Jhumka Earrings', ['desi', 'festive', 'elegant', 'wedding'], P => ln('M116,108 L116,114', P.c1, 1.4, 1) + p('M108,124 Q116,110 124,124 Z', P.c1) + [109, 112.5, 116, 119.5, 123].map(x => circ(x, 127.5, 1.4, P.c1)).join(''), { c1: '#d4af37', ...EV('navratri', 1) });
+Gl('chooriyan', 'Glass Bangles', ['desi', 'festive', 'party'], P => [298, 302, 306, 310, 314].map((y, i) => `<ellipse cx="79" cy="${y}" rx="11" ry="2.6" fill="none" stroke="${i % 2 ? P.c2 : P.c1}" stroke-width="2.4"/>`).join(''), { c1: '#e0245e', c2: '#d4af37', two: true, noPat: true, ...EV('navratri', 2) });
+Tp('kurti', 'Embroidered Kurti', ['desi', 'festive', 'casual', 'cottage'], P => ({ main: p(torso(158, 380, { neck: 'v', pad: 4 }), P.f) + ln('M137,158 L150,198 L163,158', P.c2, 2.4, 1) + ln(`M${r1(150 - hw(372) - 4)},372 L${r1(150 + hw(372) + 4)},372`, P.c2, 4, 1), arm: p(SLV.elbow, P.f) + ln('M73,246 L94,249', P.c2, 3, 1) }), { c1: '#ff9500', c2: '#d4af37', two: true, ...EV('navratri', 3) });
+Ht('maangtikka', 'Maang Tikka', ['desi', 'festive', 'royal', 'wedding'], P => ln('M150,46 L150,74', P.c1, 1.6, 1) + p('M150,74 Q143,82 150,90 Q157,82 150,74 Z', P.c1) + circ(150, 82, 2.6, P.c2), { c1: '#d4af37', c2: '#e0245e', two: true, noPat: true, ...EV('navratri', 4) });
+S('juttis', 'Mojari Juttis', ['desi', 'festive', 'elegant'], P => p('M124,528 L146,528 Q150,544 143,552 Q131,557 121,546 Z', P.f) + [534, 540, 546].map(y => circ(135, y, 1.2, P.c2)).join(''), { c1: '#d4af37', c2: '#e0245e', two: true, ...EV('navratri', 6) });
+Dr('chaniyacholi', 'Chaniya Choli', ['desi', 'festive', 'party', 'cute'], P => ({ main: p(torso(186, 234, { neck: 'sweet' }), P.c2) + p(skirt(284, 540, 72, { hem: 6 }), P.f) + ln(`M${r1(150 - hw(322) - 72)},534 Q150,550 ${r1(150 + hw(322) + 72)},534`, P.c2, 9, 1) + ln('M110,288 L190,288', P.c2, 5, 1), arm: p(SLV.elbow, P.c2) }), { c1: '#e0245e', c2: '#ffd60a', pat: 'mirror', two: true, ...EV('navratri', 8) });
+Bg('dandiya', 'Dandiya Sticks', ['desi', 'festive', 'party'], P => ln('M60,298 L96,362', P.c1, 4.5, 1) + ln('M96,298 L60,362', P.c2, 4.5, 1) + ln('M66,309 L70,316 M90,309 L86,316', '#fff', 4, .9), { c1: '#e0245e', c2: '#ffd60a', two: true, noPat: true, ...EV('navratri', 10) });
+Gl('mehendi', 'Mehendi Hands', ['desi', 'festive', 'wedding', 'romantic'], P => ln('M72,324 Q78,318 84,324 M73,331 Q78,327 83,331 M74,337 L82,337 M76,300 Q79,296 82,300 M75,308 Q79,304 83,308', P.c1, 1.2, .95) + circ(78, 334, 1.6, P.c1), { c1: '#8b3a1a', noPat: true, ...EV('navratri', 12) });
+Bk('dupatta', 'Dupatta', ['desi', 'festive', 'elegant', 'wedding'], P => ({ main: p('M106,162 Q84,300 96,472 L120,470 Q108,300 124,168 Z', P.f, 'fill-opacity=".9"'), front: p('M108,156 Q146,200 194,296 L204,280 Q156,186 122,150 Z', P.f, 'fill-opacity=".88"') + ln('M108,156 Q146,200 194,296', P.c2, 2.4, 1) }), { c1: '#ff4fa3', c2: '#ffd60a', pat: 'bandhani', two: true, ...EV('navratri', 14) });
+MK('facedeco', 'fd-nath', 'Nath Nose Ring', ['desi', 'festive', 'wedding', 'royal'], P => `<circle cx="144" cy="113" r="5.2" fill="none" stroke="${P.c1}" stroke-width="1.4"/>` + ln('M140,111 Q126,112 117,106', P.c1, .9, 1) + circ(141, 117.5, 1.4, '#fff'), { c1: '#d4af37', ...EV('navratri', 16) });
+H('gajra', 'Gajra Bun', ['desi', 'festive', 'wedding', 'elegant'], P => ({ back: p(HB, P.f) + circ(150, 36, 20, P.f, OL) + range(0, 330, 30).map(a => circ(r1(150 + 22 * Math.cos(a * Math.PI / 180)), r1(36 + 22 * Math.sin(a * Math.PI / 180)), 4.2, '#fffdf6', OL)).join(''), main: p(CAP_MID, P.f) }), { c1: '#111111', ...EV('navratri', 18) });
+Dr('saree', 'Silk Saree', ['desi', 'festive', 'elegant', 'wedding', 'formal'], P => ({ main: p(torso(176, 232, { neck: 'scoop' }), P.c2) + p(skirt(278, 548, 22), P.f) + ln(`M${r1(150 - hw(322) - 24)},544 Q150,556 ${r1(150 + hw(322) + 24)},544`, P.c2, 6, 1) + [-12, 0, 12].map(x => ln(`M${150 + x},300 L${150 + x * 1.6},544`, P.d, 1.2, .5)).join('') + p('M184,152 L204,162 L198,252 L120,304 L104,288 Q164,232 184,152 Z', P.f) + ln('M104,288 L120,304 L198,252', P.c2, 4, 1), arm: p(SLV.cap, P.c2) }), { c1: '#7a1f3d', c2: '#d4af37', two: true, ...EV('navratri', 21) });
+Dr('lehenga', 'Royal Lehenga', ['desi', 'festive', 'wedding', 'royal', 'formal'], P => ({ main: p(torso(186, 238, { neck: 'sweet' }), P.c2) + p(skirt(282, 552, 86, { hem: 8 }), P.f) + ln(`M${r1(150 - hw(322) - 86)},546 Q150,564 ${r1(150 + hw(322) + 86)},546`, P.c2, 10, 1) + ln(`M${r1(150 - hw(322) - 66)},500 Q150,516 ${r1(150 + hw(322) + 66)},500`, P.c2, 3, 1) + ln('M108,286 L192,286', P.c2, 6, 1), arm: p(SLV.elbow, P.c2) }), { c1: '#e0245e', c2: '#d4af37', pat: 'paisley', two: true, ...EV('navratri', 24) });
+N('templeneck', 'Temple Necklace', ['desi', 'festive', 'royal', 'wedding'], P => `<path d="M130,156 Q150,196 170,156" fill="none" stroke="${P.c1}" stroke-width="4"/>` + range(.1, .9, .1).map(t => { const [x, y] = qpt([130, 156], [150, 196], [170, 156], t); return circ(r1(x), r1(y + 4), 2.4, P.c1, OL); }).join('') + p('M150,178 Q140,188 150,200 Q160,188 150,178 Z', P.c1) + circ(150, 188, 3, P.c2), { c1: '#d4af37', c2: '#e0245e', two: true, noPat: true, ...EV('navratri', 27) });
+Ht('durgacrown', 'Goddess Mukut', ['desi', 'festive', 'royal'], P => ({ back: `<path d="M100,78 A50,50 0 0,1 200,78" fill="none" stroke="${P.c1}" stroke-width="6" opacity=".55"/>`, main: p('M116,66 L120,30 L132,42 L140,12 L150,32 L160,12 L168,42 L180,30 L184,66 Z', P.f) + circ(150, 50, 5, P.c2, OL) + both(circ(132, 54, 3, P.c2)) }), { c1: '#d4af37', c2: '#e0245e', two: true, ...EV('navratri', 30) });
+
+/* ===== BADDIE PASS (season 1) ===== */
+const PASS = (tier, prem) => ({ pass: tier, prem });
+const LASH_EYE = { w: 'M127,99 Q136,89 145,98 Q136,105 127,99 Z', lid: 'M125,99 Q136,86 147,96 M126,98 L121,94 M129,94 L126,89 M133,91 L131,86 M138,90 L138,85 M142,92 L144,87 M146,96 L151,93', lw: 2.6 };
+const WING = 'M126,196 Q70,128 32,96 Q18,156 42,206 Q28,236 58,260 Q50,288 88,298 Q104,256 126,236 Z';
+Tp('bodysuit', 'Baddie Bodysuit', ['baddie', 'party', 'elegant', 'street', 'glam'], P => ({ main: p(torso(160, 322, { neck: 'scoop', pad: .5, hem: 16 }), P.f), arm: p(SLV.long, P.f) }), { c1: '#111111', ...PASS(1, true) });
+I('eyes', 'e-lash', 'Lash Extensions', ['baddie', 'party', 'elegant', 'glam'], P => eyeMarkup(P, LASH_EYE), { noPat: true, c1: '#3b2416', ...PASS(2, false) });
+Dr('snatched', 'Snatched Mini', ['baddie', 'party', 'glam'], P => ({ main: p(torso(188, 346, { neck: 'sweet', hem: 4 }), P.f) + both(ln('M126,202 L130,300', P.d, 1.2, .6)) + ln('M150,206 L150,300', P.d, 1.2, .6) }), { c1: '#e8c4a8', ...PASS(3, true) });
+I('lips', 'l-gloss', 'Glossy Lips', ['baddie', 'party', 'elegant', 'glam'], P => p('M140,121 Q145,115 150,117.5 Q155,115 160,121 Q150,129 140,121 Z', P.c1) + '<ellipse cx="151" cy="124" rx="4.5" ry="1.4" fill="#fff" opacity=".7"/>', { noPat: true, c1: '#c97b6b', ...PASS(4, false) });
+H('lacefront', 'Sleek Lace Front', ['baddie', 'elegant', 'party', 'glam'], P => ({ back: p('M113,82 Q110,40 150,40 Q190,40 187,82 L202,334 Q150,346 98,334 Z', P.f), main: p('M112,104 Q108,44 150,44 Q192,44 188,104 Q182,66 150,58 Q118,66 112,104 Z', P.f) + both(p('M114,88 Q104,200 108,324 L122,320 Q118,200 124,98 Z', P.f)) }), { c1: '#111111', ...PASS(4, true) });
+S('thighboots', 'Thigh-High Boots', ['baddie', 'party', 'edgy', 'glam'], P => p(leg(352, 528, 1.4), P.f) + p(HEEL, P.f) + ln('M108,358 L149,358', P.l, 2, .6), { c1: '#111111', ...PASS(5, true) });
+E('blinghoops', 'Bling Hoops', ['baddie', 'party', 'street', 'y2k'], P => `<circle cx="114" cy="122" r="12" fill="none" stroke="${P.c1}" stroke-width="3"/><path d="${sparkle(104, 116, 3.5)}" fill="#fff"/>`, { c1: '#d4af37', ...PASS(6, false) });
+Tp('rhinecorset', 'Rhinestone Corset', ['baddie', 'party', 'glam', 'formal'], P => ({ main: p(torso(194, 294, { neck: 'sweet', hem: 10 }), P.f) + both(ln('M126,202 L132,292')) }), { c1: '#c0c0c0', c2: '#ffffff', pat: 'sparkle', ...PASS(6, true) });
+Gs('shieldshades', 'Baddie Shield Shades', ['baddie', 'street', 'party', 'futuristic'], P => p('M110,90 Q150,84 190,90 L186,106 Q150,112 114,106 Z', P.f) + both(circ(118, 94, 1.8, '#d4af37')), { c1: '#111111', ...PASS(7, true) });
+Ht('bandana', 'Bandana', ['baddie', 'street', 'western', 'edgy'], P => p('M112,74 Q110,40 150,38 Q190,40 188,74 Q150,64 112,74 Z', P.f) + p('M186,70 L200,82 L190,88 L184,76 Z', P.f), { c1: '#e0245e', c2: '#ffffff', pat: 'paisley', ...PASS(8, false) });
+O('croppuffer', 'Cropped Puffer', ['baddie', 'street', 'winter'], P => ({ main: both(p(jacketHalf(224, 2, { pad: 10, close: 170 }), P.f) + ln(`M${r1(150 - hw(190) - 10)},190 L148,190`)), arm: p(SLV.puffy, P.f) + ln('M66,240 L100,240') + ln('M61,290 L96,290') }), { c1: '#111111', ...PASS(8, true) });
+Bg('designerbag', 'Quilted Shoulder Bag', ['baddie', 'elegant', 'party', 'glam'], P => `<path d="M60,342 Q78,300 96,342" fill="none" stroke="#d4af37" stroke-width="2.4" stroke-dasharray="3 1.6"/><rect x="56" y="338" width="44" height="32" rx="5" fill="${P.f}" ${OL}/>` + ln('M56,348 L72,338 M56,360 L84,338 M64,370 L98,342 M78,370 L100,354 M100,348 L84,338 M100,360 L72,338 M92,370 L58,342', P.l, .8, .5) + circ(78, 352, 3.4, '#d4af37'), { c1: '#111111', ...PASS(9, true) });
+Gl('acrylics', 'Long Acrylics', ['baddie', 'party', 'glam'], P => [72.5, 76, 79.5, 83].map(x => `<ellipse cx="${x}" cy="343" rx="1.7" ry="4.6" fill="${P.c1}" stroke="#2b1a24" stroke-opacity=".4" stroke-width=".6"/>`).join(''), { c1: '#ff4fa3', noPat: true, ...PASS(10, false) });
+N('icedchain', 'Iced Out Chain', ['baddie', 'street', 'party'], P => `<path d="M130,156 Q150,200 170,156" fill="none" stroke="${P.c1}" stroke-width="3.6" stroke-dasharray="2.4 1.2"/>` + p(star(150, 186, 8), P.c1) + `<path d="${sparkle(156, 180, 3)}" fill="#fff"/>`, { c1: '#e6f4ff', noPat: true, ...PASS(10, true) });
+Dr('bodyconmaxi', 'Bodycon Maxi', ['baddie', 'party', 'elegant', 'formal', 'glam'], P => ({ main: p(torso(184, 332), P.f) + p(straight(330, 548, 6), P.f) + ln('M166,430 L168,548', P.d, 1.4, .8) + straps(P.c1) }), { c1: '#7a1f3d', ...PASS(11, true) });
+MK('shadow', 's-baddie', 'Baddie Beat', ['baddie', 'party', 'glam', 'elegant'], P => both(`<ellipse cx="136" cy="92" rx="12" ry="6.5" fill="${P.c1}" opacity=".6"/>` + p('M125,97 Q136,89 147,94 L156,87 L149,98 Z', '#111', 'stroke-width=".5"') + `<path d="${sparkle(140, 90, 2)}" fill="#fff"/>`), { c1: '#a2845e', ...PASS(12, false) });
+Bg('blingphone', 'Rhinestone Phone', ['baddie', 'party', 'pop'], P => `<rect x="66" y="304" width="24" height="38" rx="5" fill="${P.f}" ${OL}/>` + ln('M72,342 Q70,354 76,358', '#d4af37', 1.2, 1) + p(heart(77, 361, 3), '#ff4fa3'), { c1: '#ff8fc8', c2: '#ffffff', pat: 'sparkle', ...PASS(12, true) });
+Ht('furbucket', 'Fur Bucket Hat', ['baddie', 'winter', 'street', 'y2k'], P => p('M114,74 L120,34 Q150,26 180,34 L186,74 Z', P.f) + p('M102,82 L114,68 L186,68 L198,82 Q150,92 102,82 Z', P.f), { c1: '#e8c49a', c2: '#3b2416', pat: 'leopard', ...PASS(13, true) });
+H('baddiebun', 'Sleek Baddie Bun', ['baddie', 'elegant', 'street', 'party'], P => ({ back: p(HB, P.f) + `<ellipse cx="150" cy="30" rx="22" ry="16" fill="${P.f}" ${OL}/>`, main: p(CAP_SLICK, P.f) + ln('M124,76 q5,3 1,8 q-3,2 -1,4 M176,76 q-5,3 -1,8 q3,2 1,4', P.d, 1.2, .9) }), { c1: '#111111', ...PASS(14, false) });
+O('motojacket', 'Moto Jacket', ['baddie', 'rock', 'edgy', 'street'], P => ({ main: both(p(jacketHalf(244, 6, { pad: 4 }), P.f) + p('M138,152 L142,196 L120,184 Z', P.d)) + ln('M128,170 L160,236', '#c0c0c0', 1.6, 1), arm: p(SLV.long, P.f) + ln('M70,262 L92,266', '#c0c0c0', 1.4, 1) }), { c1: '#111111', ...PASS(14, true) });
+Bk('baddiewings', 'Dark Angel Wings', ['baddie', 'goth', 'party', 'glam'], P => both(p(WING, P.f)), { c1: '#111111', c2: '#d4af37', pat: 'sparkle', ...PASS(15, true) });
+
+/* extra tags so older pieces fit the new themes */
+const TAG_ADD = {
+  bikini: ['swim'], tube: ['swim'], shades: ['swim'], sandals: ['swim'], wavy: ['swim'], bucket: ['swim'],
+  ballgown: ['wedding'], column: ['wedding'], pearls: ['wedding'], drops: ['wedding'], studs: ['wedding'], tiara: ['wedding'], bouquet: ['wedding', 'easter'], opera: ['wedding'], updo: ['wedding'], lacegloves: ['wedding'], slip: ['wedding'], bowtie: ['wedding'],
+  scarf: ['christmas'], beanie: ['christmas'], uggs: ['christmas'], furcoat: ['christmas', 'baddie'], sweater: ['christmas', 'autumn'],
+  sequintop: ['newyear'], bodycon: ['newyear', 'baddie'], glowsticks: ['newyear'], starglasses: ['newyear'], clutch: ['newyear'], mermaid: ['newyear'],
+  bunny: ['easter'], babydoll: ['easter'], sundress: ['easter'], flowercrown: ['easter'], hearttee: ['easter'],
+  corset: ['baddie'], hoops: ['baddie'], chain: ['baddie'], leatherpants: ['baddie'], cargo: ['baddie'], fishnets: ['baddie'], 's-liner': ['baddie'], 'l-pout': ['baddie'],
+  bangles: ['desi', 'festive'], halo: ['festive'],
+  cardigan: ['autumn'], beret: ['autumn'], kneeboots: ['autumn'], trench: ['autumn'], coffee: ['autumn'], cowboots: ['autumn'], 'fd-freckles': ['autumn'],
+  witch: ['halloween'], witchhat: ['halloween'], pumpkin: ['halloween'],
+};
+for (const [id, t] of Object.entries(TAG_ADD)) ITEMS.find(i => i.id === id)?.tags.push(...t);
+
 const ITEMS_BY_ID = Object.fromEntries(ITEMS.map(it => [it.id, it]));
 
 /* ---------- poses ---------- */
@@ -502,11 +650,22 @@ const POSES = {
 
 /* ---------- renderer ---------- */
 const DRAW_SLOTS = ['back', 'hair', 'legwear', 'bottom', 'shoes', 'top', 'dress', 'neck', 'outer', 'gloves', 'bag', 'shadow', 'eyes', 'brows', 'lips', 'blush', 'facedeco', 'ears', 'hat', 'glasses'];
-const LAYERS = ['back', 'hair:back', 'top:back', 'BODY', 'legwear', 'bottom', 'shoes', 'top', 'dress', 'neck', 'outer', 'ARMS', 'shadow', 'eyes', 'brows', 'lips', 'blush', 'facedeco', 'ears', 'hair', 'hat', 'glasses'];
+const LAYERS = ['back', 'hair:back', 'hat:back', 'top:back', 'dress:back', 'BODY', 'legwear', 'bottom', 'shoes', 'top', 'dress', 'neck', 'outer', 'back:front', 'ARMS', 'shadow', 'eyes', 'brows', 'lips', 'blush', 'facedeco', 'ears', 'hair', 'hat', 'glasses'];
+// layers that get soft 3D shading in full-size renders
+const SHADED = new Set(['back', 'hair:back', 'top:back', 'dress:back', 'BODY', 'legwear', 'bottom', 'shoes', 'top', 'dress', 'outer', 'back:front', 'ARMS', 'hair', 'hat']);
 let UID = 0;
+
+// inner shadow on the lower-right edges + a soft highlight on the upper-left, so flat shapes read as rounded
+const shadeFilter = id => `<filter id="${id}" x="-5%" y="-5%" width="110%" height="110%" color-interpolation-filters="sRGB">` +
+  '<feComponentTransfer in="SourceAlpha" result="inv"><feFuncA type="table" tableValues="1 0"/></feComponentTransfer>' +
+  '<feGaussianBlur in="inv" stdDeviation="4.5" result="ib"/>' +
+  '<feOffset in="ib" dx="-3.5" dy="-2.5" result="ibs"/><feFlood flood-color="#2a0f1f" flood-opacity=".42"/><feComposite in2="ibs" operator="in"/><feComposite in2="SourceAlpha" operator="in" result="sh"/>' +
+  '<feOffset in="ib" dx="3" dy="3" result="ibh"/><feFlood flood-color="#ffffff" flood-opacity=".3"/><feComposite in2="ibh" operator="in"/><feComposite in2="SourceAlpha" operator="in" result="hl"/>' +
+  '<feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="sh"/><feMergeNode in="hl"/></feMerge></filter>';
 
 function renderCharacter(o, opt = {}) {
   const uid = 'c' + (++UID), s = o.slots || {}, parts = {}, defs = [];
+  const hq = !opt.flat && !/thumb|head/.test(opt.cls || '');
   const add = (k, v) => { if (v) (parts[k] ||= []).push(v); };
   const skin = o.skin || '#F1C19F';
   for (const slot of DRAW_SLOTS) {
@@ -520,30 +679,42 @@ function renderCharacter(o, opt = {}) {
     if (pat !== 'solid') { const pid = `${uid}-${slot}`; defs.push(patternDef(pid, pat, c1, c2)); f = `url(#${pid})`; }
     const out = it.draw({ f, c1, c2, d: shade(c1, -28), l: shade(c1, 30), uid, skin });
     const r = typeof out === 'string' ? { main: out } : (out || {});
-    add(slot + ':back', r.back); add(slot, r.main); add('arm', r.arm); add('hand', r.hand);
+    add(slot + ':back', r.back); add(slot, r.main); add(slot + ':front', r.front); add('arm', r.arm); add('hand', r.hand);
   }
   const g = k => (parts[k] || []).join('');
   const pose = POSES[o.pose] || POSES.idle;
-  const arm = `<path d="${ARM_SKIN}" fill="${skin}" ${OL}/><ellipse cx="78" cy="329" rx="8.5" ry="11" fill="${skin}" ${OL}/>` + g('arm');
+  const arm = `<path d="${ARM_SKIN}" fill="${skin}" ${OL}/><ellipse cx="78" cy="329" rx="8.5" ry="11" fill="${skin}" ${OL}/>` + (hq ? ln('M74,336 Q78,339 82,336', shade(skin, -25), 1, .5) : '') + g('arm');
   const ARMS = `<g transform="rotate(${pose.l} 102 170)">${arm}</g>` + mir(`<g transform="rotate(${pose.r} 102 170)">${arm}${g('hand')}</g>`);
   const skinD = shade(skin, -22);
   const BODY =
     both(p(leg(312, 530, 0), skin) + p(FOOT, skin)) +
     `<rect x="139" y="116" width="22" height="46" fill="${skin}" ${OL}/>` +
+    (hq ? `<path d="M139,128 Q150,140 161,128 L161,142 Q150,150 139,142 Z" fill="${skinD}" opacity=".35"/>` : '') +
     p(torso(156, 332, { pad: 0, neck: 'shoulder' }), skin) +
+    (hq ? ln('M126,166 Q137,171 146,166 M154,166 Q163,171 174,166', skinD, 1.2, .55) + ln('M150,274 l0,3', skinD, 1.6, .6) + both(ln('M123,430 q7,3 14,0', skinD, 1.1, .4)) : '') +
     p(torso(198, 224, { pad: .6, neck: 'sweet' }), '#efe3ea', 'stroke-width="1"') +
     p(`M${r1(150 - hw(296))},296 L${r1(150 + hw(296))},296 L${r1(150 + hw(322))},322 L156,340 L144,340 L${r1(150 - hw(322))},322 Z`, '#efe3ea', 'stroke-width="1"') +
-    both(`<ellipse cx="116" cy="101" rx="5.5" ry="9" fill="${skin}" ${OL}/>`) +
+    both(`<ellipse cx="116" cy="101" rx="5.5" ry="9" fill="${skin}" ${OL}/>` + (hq ? ln('M117,96 Q113,101 117,106', skinD, 1, .5) : '')) +
     `<ellipse cx="150" cy="95" rx="34" ry="40" fill="${skin}" ${OL}/>` +
-    ln('M149,104 Q146,111 151,112', skinD, 1.6, .7);
+    (hq ? `<ellipse cx="150" cy="95" rx="34" ry="40" fill="url(#${uid}-face)"/>` : '') +
+    ln('M149,104 Q146,111 151,112', skinD, 1.6, .7) + (hq ? ln('M145,113 Q150,115 155,113', skinD, 1, .45) : '');
   const L = { BODY, ARMS };
-  const inner = LAYERS.map(k => L[k] ?? g(k)).join('');
+  const extra = {
+    lips: hq && s.lips ? '<ellipse cx="152.5" cy="119.6" rx="3" ry="1.1" fill="#fff" opacity=".45"/>' : '',
+    hair: hq && s.hair ? '<path d="M128,58 Q150,46 172,58" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="4.5" stroke-linecap="round"/>' : '',
+  };
+  const inner = LAYERS.map(k => {
+    const c = L[k] ?? g(k);
+    return (c && hq && SHADED.has(k) ? `<g filter="url(#${uid}-shade)">${c}</g>` : c) + (extra[k] || '');
+  }).join('');
   const h = o.height || 1, tilt = pose.t || 0;
   const vb = opt.vb || '0 0 300 580';
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${vb}" class="${opt.cls || 'char'}" preserveAspectRatio="${opt.par || 'xMidYMax meet'}">` +
     `<defs><filter id="${uid}-blur" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation=".7"/></filter>` +
     `<filter id="${uid}-soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="1.8"/></filter>` +
-    `<filter id="${uid}-glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>${defs.join('')}</defs>` +
+    `<filter id="${uid}-glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6"/></filter>` +
+    (hq ? shadeFilter(`${uid}-shade`) + `<radialGradient id="${uid}-face" cx=".5" cy=".42" r=".6"><stop offset=".55" stop-color="#fff" stop-opacity="0"/><stop offset="1" stop-color="#5a2a1a" stop-opacity=".16"/></radialGradient>` : '') +
+    `${defs.join('')}</defs>` +
     (opt.noShadow ? '' : '<ellipse cx="150" cy="560" rx="64" ry="9" fill="#000" opacity=".18"/>') +
     `<g transform="translate(150 556) rotate(${tilt}) scale(${h}) translate(-150 -556)">${inner}</g></svg>`;
 }
