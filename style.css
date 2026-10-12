@@ -587,3 +587,95 @@ svg.char { overflow: visible; }
 .menu-card.festcard b { color: #000080; }
 .season-banner.festbanner { background: linear-gradient(90deg, #ff9933, #fff7ec 50%, #138808); color: #000080; }
 .season-banner.festbanner small { color: #2b1a24; }
+
+/* ==========================================================
+   POP UPDATES: KATSEYE, Olivia Rodrigo, K-Pop
+   ========================================================== */
+.ev-katseye, body[data-mode="katseye"] { --ev-card: #0b0b10; --ev-acc: #ff4fd8; --ev-ink: #fff; --ev-font: 'Bebas Neue', Impact, sans-serif; }
+.ev-olivia, body[data-mode="olivia"] { --ev-card: #2a0f3d; --ev-acc: #c77dff; --ev-ink: #fff; --ev-font: 'Permanent Marker', cursive; }
+.ev-kpop, body[data-mode="kpop"] { --ev-card: #14102b; --ev-acc: #7df9ff; --ev-ink: #fff; --ev-font: 'Bungee', Impact, sans-serif; }
+
+body[data-mode="katseye"] { background: radial-gradient(circle at 15% 10%, #ff4fd844, transparent 35%), radial-gradient(circle at 85% 30%, #5ab4ff44, transparent 35%), linear-gradient(180deg, #050507, #16161f); background-attachment: fixed; }
+body[data-mode="olivia"] { background: radial-gradient(circle at 50% 0, #e0aaff55, transparent 45%), linear-gradient(180deg, #2a0f3d, #5a189a 60%, #7b2cbf); background-attachment: fixed; }
+body[data-mode="kpop"] { background: radial-gradient(circle at 20% 0, #ff8fc855, transparent 40%), radial-gradient(circle at 80% 10%, #7df9ff44, transparent 40%), linear-gradient(180deg, #0d0a22, #241a4d); background-attachment: fixed; }
+body[data-mode="katseye"] #hud, body[data-mode="olivia"] #hud, body[data-mode="kpop"] #hud { background: #000000b0; color: #fff; border-color: #0000; }
+body[data-mode="katseye"] .xpbar i, body[data-mode="olivia"] .xpbar i, body[data-mode="kpop"] .xpbar i { background: var(--ev-acc); }
+body[data-mode="katseye"] .theme-spin, body[data-mode="olivia"] .theme-spin, body[data-mode="kpop"] .theme-spin,
+body[data-mode="katseye"] .theme-card, body[data-mode="olivia"] .theme-card, body[data-mode="kpop"] .theme-card { background: var(--ev-card); color: var(--ev-acc); }
+body[data-mode="katseye"] .ts-label, body[data-mode="olivia"] .ts-label, body[data-mode="kpop"] .ts-label,
+body[data-mode="katseye"] .theme-label, body[data-mode="olivia"] .theme-label, body[data-mode="kpop"] .theme-label { color: #fff; }
+body[data-mode="katseye"] .ts-name, body[data-mode="olivia"] .ts-name, body[data-mode="kpop"] .ts-name { font-family: var(--ev-font); font-weight: 400; }
+body[data-mode="katseye"] .lobby-sub, body[data-mode="olivia"] .lobby-sub, body[data-mode="kpop"] .lobby-sub,
+body[data-mode="katseye"] .res-head, body[data-mode="olivia"] .res-head, body[data-mode="kpop"] .res-head,
+body[data-mode="katseye"] .bh-note, body[data-mode="olivia"] .bh-note, body[data-mode="kpop"] .bh-note { color: #fff; }
+body[data-mode="katseye"] .stage-wrap { background: radial-gradient(ellipse at 50% 100%, #ff4fd844, transparent 60%), linear-gradient(180deg, #16161f, #2a2a38); box-shadow: inset 0 0 0 4px #ff4fd855; }
+body[data-mode="olivia"] .stage-wrap { background: radial-gradient(ellipse at 50% 100%, #e0aaff66, transparent 60%), linear-gradient(180deg, #f3e8ff, #d8b4fe); box-shadow: inset 0 0 0 4px #c77dff; }
+body[data-mode="kpop"] .stage-wrap { background: radial-gradient(ellipse at 50% 100%, #7df9ff44, transparent 60%), linear-gradient(180deg, #241a4d, #3d2b7a); box-shadow: inset 0 0 0 4px #7df9ff66; }
+body[data-mode="katseye"] .bh-logo { color: #fff; letter-spacing: .04em; text-shadow: 0 0 24px #ff4fd8; }
+body[data-mode="olivia"] .bh-logo { color: #e0aaff; text-shadow: 0 3px 0 #2a0f3d; }
+body[data-mode="kpop"] .bh-logo { color: #7df9ff; text-shadow: 0 0 20px #ff8fc8; }
+
+/* title, menu, tags, toasts */
+.ls-kat { background: #0b0b10; color: #ff4fd8; font-family: 'Bebas Neue', Impact, sans-serif; font-weight: 400; font-size: 20px; letter-spacing: .05em; }
+.ls-oli { background: #5a189a; color: #e0aaff; font-family: 'Permanent Marker', cursive; font-weight: 400; }
+.ls-kpop { background: #14102b; color: #7df9ff; font-family: 'Bungee', Impact, sans-serif; font-weight: 400; }
+.menu-card.ev-katseye { background: radial-gradient(circle at 85% 20%, #ff4fd866, transparent 50%), linear-gradient(140deg, #050507, #2a2a38); color: #fff; }
+.menu-card.ev-katseye b { color: #ff4fd8; font-size: 40px; letter-spacing: .03em; }
+.menu-card.ev-olivia { background: linear-gradient(140deg, #2a0f3d, #7b2cbf 60%, #c77dff); color: #fff; }
+.menu-card.ev-olivia b { color: #f3e8ff; }
+.menu-card.ev-kpop { background: radial-gradient(circle at 20% 80%, #ff8fc866, transparent 45%), linear-gradient(140deg, #0d0a22, #3d2b7a 60%, #2ec4b6); color: #fff; }
+.menu-card.ev-kpop b { color: #7df9ff; font-size: 26px; }
+.tile em[class*="ev-"] { background: var(--ev-card, #111); color: var(--ev-acc, #fff); }
+.season-banner.ev-katseye small, .season-banner.ev-olivia small, .season-banner.ev-kpop small { color: #fff; }
+.toast.ev-toast-katseye { background: #0b0b10; color: #ff4fd8; }
+.toast.ev-toast-olivia { background: #5a189a; color: #f3e8ff; }
+.toast.ev-toast-kpop { background: #14102b; color: #7df9ff; }
+.lock-thumb.ev-bg-katseye { background: #16161f; }
+.lock-thumb.ev-bg-olivia { background: #e9d5ff; }
+.lock-thumb.ev-bg-kpop { background: #241a4d; }
+
+/* runway stages */
+.ocean, .neon, .flutter { display: none; }
+.runway-stage[data-stage="katseye"] { background: #050507; }
+.runway-stage[data-stage="katseye"] .stage-bg { background: radial-gradient(ellipse at 50% 20%, #ffffff18, transparent 50%), linear-gradient(180deg, #050507, #16161f); }
+.runway-stage[data-stage="katseye"] .neon { display: block; position: absolute; inset: 0; pointer-events: none; }
+.neon i { position: absolute; top: -10%; width: 22%; height: 120%; mix-blend-mode: screen; opacity: .55; clip-path: polygon(46% 0, 54% 0, 100% 100%, 0 100%); transform-origin: top center; animation: sweep 2.4s ease-in-out infinite alternate; }
+.neon i:nth-child(1) { left: 6%; background: linear-gradient(180deg, #ff4fd8, transparent 75%); }
+.neon i:nth-child(2) { left: 39%; background: linear-gradient(180deg, #5ab4ff, transparent 75%); animation-delay: -.8s; }
+.neon i:nth-child(3) { left: 72%; background: linear-gradient(180deg, #8ACE00, transparent 75%); animation-delay: -1.6s; }
+.runway-stage[data-stage="katseye"] .lights { display: none; }
+.runway-stage[data-stage="katseye"] .runway-floor { background: linear-gradient(180deg, #2a2a38, #050507); }
+.runway-stage[data-stage="katseye"] .runway-floor::after { background: repeating-linear-gradient(180deg, transparent 0 26px, #ff4fd844 26px 28px), repeating-linear-gradient(90deg, transparent 0 40px, #5ab4ff22 40px 42px); }
+.runway-stage[data-stage="katseye"] .theme-pill, .runway-stage[data-stage="katseye"] .nameplate { background: #0b0b10; color: #ff4fd8; font-family: 'Bebas Neue', Impact, sans-serif; letter-spacing: .04em; font-weight: 400; }
+
+.runway-stage[data-stage="olivia"] { background: #2a0f3d; }
+.runway-stage[data-stage="olivia"] .stage-bg { background: radial-gradient(circle at 50% 30%, #e0aaff66, transparent 55%), repeating-linear-gradient(90deg, #3c096c 0 40px, #320a5a 40px 80px); }
+.runway-stage[data-stage="olivia"] .flutter { display: block; position: absolute; inset: 0; pointer-events: none; z-index: 2; }
+.flutter i { position: absolute; font-style: normal; font-size: 28px; animation: flutter 7s ease-in-out infinite; opacity: .85; }
+.flutter i:nth-child(1) { left: 8%; top: 20%; }
+.flutter i:nth-child(2) { left: 84%; top: 14%; animation-delay: -2s; }
+.flutter i:nth-child(3) { left: 20%; top: 46%; animation-delay: -4s; font-size: 22px; }
+.flutter i:nth-child(4) { left: 74%; top: 44%; animation-delay: -1s; }
+.flutter i:nth-child(5) { left: 50%; top: 10%; animation-delay: -5s; font-size: 20px; }
+@keyframes flutter { 0%, 100% { transform: translate(0, 0) rotate(-8deg); } 50% { transform: translate(14px, -22px) rotate(10deg); } }
+.runway-stage[data-stage="olivia"] .runway-floor { background: radial-gradient(circle, #ffffff66 1px, transparent 1.5px) 0 0 / 14px 14px, linear-gradient(180deg, #e0aaff, #9d4edd); }
+.runway-stage[data-stage="olivia"] .lights i { background: linear-gradient(180deg, #e0aaffcc, transparent 70%); }
+.runway-stage[data-stage="olivia"] .theme-pill, .runway-stage[data-stage="olivia"] .nameplate { background: #2a0f3d; color: #e0aaff; font-family: 'Permanent Marker', cursive; font-weight: 400; }
+
+.runway-stage[data-stage="kpop"] { background: #0d0a22; }
+.runway-stage[data-stage="kpop"] .stage-bg { background: linear-gradient(90deg, #ff8fc833, #7df9ff33, #c9a7ff33, #ff8fc833) 0 0 / 300% 100%, repeating-linear-gradient(0deg, #ffffff08 0 3px, transparent 3px 6px), linear-gradient(180deg, #0d0a22, #241a4d); animation: ledscreen 8s linear infinite; }
+@keyframes ledscreen { to { background-position: 300% 0, 0 0, 0 0; } }
+.runway-stage[data-stage="kpop"] .ocean { display: block; position: absolute; left: 0; right: 0; bottom: 0; height: 22%; z-index: 4; pointer-events: none;
+  background: radial-gradient(circle at 10px 10px, #7df9ff 0 3px, #7df9ff55 4px, transparent 7px) 0 0 / 22px 20px,
+              radial-gradient(circle at 10px 10px, #ff8fc8 0 3px, #ff8fc855 4px, transparent 7px) 11px 10px / 22px 20px;
+  animation: ocean 1.2s ease-in-out infinite alternate; -webkit-mask-image: linear-gradient(0deg, #000 30%, transparent); mask-image: linear-gradient(0deg, #000 30%, transparent); }
+@keyframes ocean { to { transform: translateY(-5px); filter: brightness(1.4); } }
+.runway-stage[data-stage="kpop"] .lights i { background: linear-gradient(180deg, #7df9ffaa, transparent 70%); opacity: .5; }
+.runway-stage[data-stage="kpop"] .lights i:nth-child(even) { background: linear-gradient(180deg, #ff8fc8aa, transparent 70%); }
+.runway-stage[data-stage="kpop"] .runway-floor { background: linear-gradient(180deg, #3d2b7a, #0d0a22); }
+.runway-stage[data-stage="kpop"] .runway-floor::after { background: repeating-linear-gradient(180deg, transparent 0 28px, #7df9ff33 28px 30px); }
+.runway-stage[data-stage="kpop"] .theme-pill, .runway-stage[data-stage="kpop"] .nameplate { background: #14102b; color: #7df9ff; font-family: 'Bungee', Impact, sans-serif; font-weight: 400; }
+.pill.tokens { font-size: 13px; }
+
+.logo-seasons { margin-bottom: 26px; }
+.hud-right { row-gap: 6px; }

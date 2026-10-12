@@ -66,6 +66,40 @@ const BRAT_THEMES = [
   { id: 'itgirl', name: 'it girl', emoji: '✨', tags: { y2k: 2, brat: 2, pop: 2, elegant: 1 }, colors: [BRAT, '#111111', '#ffffff'], desc: 'everyone wants to be you tonight.' },
   { id: 'bratsport', name: 'brat & sporty', emoji: '🏟️', tags: { sporty: 3, brat: 2, street: 2 }, colors: [BRAT, '#111111', '#ffffff'], desc: 'track pants, sneakers, lime everything.' },
 ];
+const KATSEYE_THEMES = [
+  { id: 'debutstage', name: 'Debut Stage', emoji: '🎤', tags: { katseye: 3, party: 2, pop: 2, glam: 1 }, colors: ['#111111', '#ffffff', '#c0c0c0'], desc: 'First music show — matching but each one stands out.' },
+  { id: 'gnarly', name: 'Gnarly', emoji: '🤘', tags: { katseye: 3, edgy: 2, street: 2 }, colors: ['#ff4fd8', '#111111', '#8ACE00'], desc: 'Loud, chaotic, fearless — clash on purpose.' },
+  { id: 'touch', name: 'Touch', emoji: '💗', tags: { katseye: 3, romantic: 2, cute: 1 }, colors: ['#ff8fc8', '#ffffff', '#ffc8e8'], desc: 'Soft pink pop with a crush-worthy glow.' },
+  { id: 'dancepractice', name: 'Dance Practice', emoji: '🩰', tags: { dance: 3, sporty: 2, katseye: 2, street: 1 }, colors: ['#9aa0a6', '#111111', '#ffffff'], desc: 'Baggy cargos, crop tops and chunky sneakers.' },
+  { id: 'globalgg', name: 'Global Girl Group', emoji: '🌍', tags: { katseye: 3, pop: 2, y2k: 1, street: 1 }, colors: ['#ff4fd8', '#5ab4ff', '#ffd60a', '#111111'], desc: 'Six styles, one group — show your member energy.' },
+  { id: 'mvglam', name: 'Music Video Glam', emoji: '🎬', tags: { katseye: 2, glam: 2, party: 2, formal: 1 }, colors: ['#c0c0c0', '#111111', '#ff4fd8'], desc: 'Rhinestones, wind machine, slow-mo hair flip.' },
+];
+const OLIVIA_THEMES = [
+  { id: 'gutstour', name: 'GUTS Tour', emoji: '💜', tags: { olivia: 3, rock: 2, party: 1, edgy: 1 }, colors: ['#7b2cbf', '#111111', '#c77dff'], colorWeight: 1.6, desc: 'Sparkly purple bodysuits and stomping boots.' },
+  { id: 'sourera', name: 'SOUR Era', emoji: '🍬', tags: { olivia: 3, y2k: 2, cute: 1 }, colors: ['#9b5de5', '#c77dff', '#ffffff'], colorWeight: 1.6, desc: 'Purple stickers, plaid and butterfly clips.' },
+  { id: 'grungeprom', name: 'Grunge Prom', emoji: '🖤', tags: { olivia: 3, rock: 2, romantic: 1, formal: 1 }, colors: ['#111111', '#7b2cbf', '#c0c0c0'], desc: 'Lace slip dress + combat boots. Iconic.' },
+  { id: 'schoolpunk', name: 'Schoolgirl Punk', emoji: '📓', tags: { olivia: 2, rock: 2, cute: 2, y2k: 1 }, colors: ['#5e2a84', '#e0245e', '#111111'], desc: 'Pleated plaid, knee socks and attitude.' },
+  { id: 'butterflyglitter', name: 'Butterfly Clips & Glitter', emoji: '🦋', tags: { olivia: 2, y2k: 3, fairy: 1 }, colors: ['#c77dff', '#9ad7ff', '#c0c0c0'], desc: 'Glitter lids, butterfly clips, Y2K sparkle.' },
+  { id: 'bedroompop', name: 'Bedroom Pop Diary', emoji: '🎸', tags: { olivia: 2, cozy: 2, casual: 1, rock: 1 }, colors: ['#7b2cbf', '#f5e6c8', '#111111'], desc: 'Flannel, messy bun and a guitar on your bed.' },
+];
+const KPOP_THEMES = [
+  { id: 'blackpink', name: 'BLACKPINK Concert', emoji: '🖤', tags: { kpop: 3, glam: 2, party: 2 }, colors: ['#ff8fc8', '#111111'], colorWeight: 2, desc: 'Pink and black stadium glam.' },
+  { id: 'newjeans', name: 'NewJeans Y2K Denim', emoji: '👖', tags: { kpop: 2, y2k: 3, casual: 1 }, colors: ['#6b8fc7', '#8fb1e0', '#ffffff'], desc: 'Effortless denim, baby tees and clips.' },
+  { id: 'aespa', name: 'aespa Cyber Idol', emoji: '🤖', tags: { kpop: 2, futuristic: 3, edgy: 1 }, colors: ['#c0c0c0', '#111111', '#32ade6'], desc: 'Metaverse chrome and holographic shine.' },
+  { id: 'twice', name: 'TWICE Candy Pop', emoji: '🍭', tags: { kpop: 3, cute: 3, pop: 1 }, colors: ['#ff8fc8', '#ffd60a', '#5ab4ff'], desc: 'Bright, sweet, bubbly stage colors.' },
+  { id: 'lesserafim', name: 'LE SSERAFIM Fearless Sporty', emoji: '🏁', tags: { kpop: 2, sporty: 3, edgy: 1 }, colors: ['#ffffff', '#111111', '#c0c0c0'], desc: 'Athletic, sharp and unstoppable.' },
+  { id: 'ive', name: 'IVE Princess Elegance', emoji: '👑', tags: { kpop: 2, elegant: 3, royal: 1 }, colors: ['#ffffff', '#d4af37', '#ffc8e8'], desc: 'Tiaras, satin and main-character confidence.' },
+  { id: 'itzy', name: 'ITZY Bold Street', emoji: '🔥', tags: { kpop: 2, street: 3, edgy: 1 }, colors: ['#e0245e', '#111111', '#ffffff'], desc: 'Confident streetwear with a red edge.' },
+  { id: 'illit', name: 'ILLIT Magnetic Cute', emoji: '🧲', tags: { kpop: 2, cute: 3, y2k: 1 }, colors: ['#ffc8e8', '#9ad7ff', '#ffffff'], desc: 'Pastel school-crush energy.' },
+  { id: 'straykids', name: 'Stray Kids Maximalist', emoji: '🐺', tags: { kpop: 2, street: 2, rock: 2 }, colors: ['#111111', '#e0245e', '#c0c0c0'], desc: 'Chains, layers, loud and proud.' },
+  { id: 'bts', name: 'BTS Pastel Suits', emoji: '💜', tags: { kpop: 2, formal: 2, elegant: 2 }, colors: ['#c9a7ff', '#ffc8e8', '#9ad7ff'], desc: 'Soft-tailored suits in candy pastels.' },
+  { id: 'seventeen', name: 'SEVENTEEN Concert Uniform', emoji: '💎', tags: { kpop: 2, formal: 1, sporty: 1, office: 1 }, colors: ['#1d3557', '#ffffff', '#c9a7ff'], desc: 'Coordinated stage uniforms for 13.' },
+  { id: 'babymonster', name: 'BABYMONSTER Rookie Swag', emoji: '🧢', tags: { kpop: 2, street: 2, edgy: 2 }, colors: ['#111111', '#e0245e', '#ffffff'], desc: 'Oversized fits and fierce rookie attitude.' },
+  { id: 'redvelvet', name: 'Red Velvet Retro Romance', emoji: '🍰', tags: { kpop: 2, romantic: 2, cottage: 1, cute: 1 }, colors: ['#e0245e', '#ffc8e8', '#f5e6c8'], desc: 'Vintage dresses and sweet retro charm.' },
+  { id: 'airport', name: 'K-Idol Airport Fashion', emoji: '✈️', tags: { kpop: 2, casual: 2, elegant: 1, winter: 1 }, colors: ['#c8a878', '#111111', '#ffffff'], desc: 'Long coats, sunglasses and paparazzi-ready.' },
+  { id: 'awardshow', name: 'Award Show Red Carpet', emoji: '🏆', tags: { kpop: 2, formal: 3, glam: 2 }, colors: ['#c0c0c0', '#111111', '#d4af37'], desc: 'Gowns, capes and a daesang moment.' },
+  { id: 'comeback', name: 'Comeback Stage', emoji: '📺', tags: { kpop: 3, party: 2, pop: 2 }, colors: ['#7df9ff', '#ff8fc8', '#111111'], desc: 'Brand new concept, brand new you.' },
+];
 const SPOOKY_THEMES = [
   { id: 'vampball', name: 'Vampire Ball', emoji: '🧛', tags: { spooky: 3, goth: 2, formal: 2, royal: 1 }, colors: ['#111111', '#7a1f3d', '#e0245e'], desc: 'Velvet, capes and a little bit of bite.' },
   { id: 'coven', name: "Witches' Coven", emoji: '🧙', tags: { spooky: 3, fairy: 2, goth: 1 }, colors: ['#2a1438', '#2d6a4f', '#111111'], desc: 'Brew something wicked.' },
@@ -120,6 +154,24 @@ const EVENTS = {
     crowd: ['🪔', '💃', '🥢', '🌼', '✨', '🙌', '😍', '🎉'],
     hero: look('#B97E52', { hair: { id: 'gajra', c1: '#111111' }, eyes: { id: 'e-doe', c1: '#3b2416' }, brows: { id: 'b-arched', c1: '#111111' }, lips: { id: 'l-smile', c1: '#c2185b' }, facedeco: { id: 'fd-bindi', c1: '#e0245e' }, dress: { id: 'chaniyacholi', c1: '#e0245e', c2: '#ffd60a', pat: 'mirror' }, back: { id: 'dupatta', c1: '#ff4fa3', c2: '#ffd60a', pat: 'bandhani' }, ears: { id: 'jhumka', c1: '#d4af37' }, hat: { id: 'maangtikka', c1: '#d4af37', c2: '#e0245e' }, gloves: { id: 'chooriyan', c1: '#e0245e', c2: '#d4af37' }, bag: { id: 'dandiya', c1: '#e0245e', c2: '#ffd60a' }, shoes: { id: 'juttis', c1: '#d4af37', c2: '#e0245e' } }, 'wave'),
   },
+  katseye: {
+    id: 'katseye', name: 'KATSEYE Update', short: 'KATSEYE', sub: 'global girl group era · fan-inspired', token: '🐾', tokenName: 'paw prints',
+    themes: KATSEYE_THEMES, music: 'katseye', badge: 'NEW', icon: '😼', blurb: 'Dance-practice fits & debut-stage glam · earn 🐾',
+    crowd: ['😼', '🐾', '🎤', '💗', '📸', '🔥', '🤩', '✨'],
+    hero: look('#D19A6A', { hair: { id: 'stagepony', c1: '#111111' }, eyes: { id: 'e-cat', c1: '#3b2416' }, brows: { id: 'b-straight', c1: '#111111' }, lips: { id: 'l-gloss', c1: '#c97b6b' }, shadow: { id: 's-catwing', c1: '#111111' }, top: { id: 'dancecrop', c1: '#111111', c2: '#ff4fd8' }, bottom: { id: 'dancecargo', c1: '#9aa0a6', c2: '#111111' }, shoes: { id: 'dancesneakers', c1: '#ffffff', c2: '#ff4fd8' }, neck: { id: 'silverchains', c1: '#c0c0c0' }, ears: { id: 'headsetmic' }, gloves: { id: 'dancesleeves', c1: '#111111', c2: '#111111', pat: 'mesh' } }, 'point'),
+  },
+  olivia: {
+    id: 'olivia', name: 'Olivia Rodrigo Update', short: 'GUTS & SOUR', sub: 'purple grunge-pop era · fan-inspired', token: '🦋', tokenName: 'butterflies',
+    themes: OLIVIA_THEMES, music: 'guts', badge: 'NEW', icon: '💜', blurb: 'Purple plaid, glitter & combat boots · earn 🦋',
+    crowd: ['💜', '🦋', '🎸', '🖤', '😭', '✨', '🤘', '📸'],
+    hero: look('#F1C19F', { hair: { id: 'grungewaves', c1: '#3b2416' }, eyes: { id: 'e-doe', c1: '#3b2416' }, brows: { id: 'b-natural', c1: '#3b2416' }, lips: { id: 'l-pout', c1: '#c2185b' }, shadow: { id: 's-purpleglitter', c1: '#9b5de5' }, facedeco: { id: 'fd-ostickers', c1: '#9b5de5', c2: '#ff4fa3' }, hat: { id: 'butterflyclips', c1: '#c77dff', c2: '#9ad7ff' }, top: { id: 'lacecami', c1: '#111111', c2: '#c77dff' }, bottom: { id: 'plaidmini', c1: '#5e2a84', c2: '#111111', pat: 'plaid' }, legwear: { id: 'purpleknee', c1: '#ffffff', c2: '#9b5de5' }, shoes: { id: 'purplecombat', c1: '#5e2a84' }, bag: { id: 'guitar', c1: '#9b5de5', c2: '#ffffff', pat: 'sparkle' }, neck: { id: 'brokenheart', c1: '#9b5de5' } }, 'sassy'),
+  },
+  kpop: {
+    id: 'kpop', name: 'K-Pop Idols', short: 'K-Pop', sub: '16 group-inspired concepts · fan-inspired', token: '💫', tokenName: 'stars',
+    themes: KPOP_THEMES, music: 'kpop', badge: 'NEW', icon: '🎤', blurb: 'Concepts inspired by 15 groups · earn 💫 stars',
+    crowd: ['💫', '🪄', '💖', '🎤', '📸', '😍', '🫶', '✨'],
+    hero: look('#FFE3D3', { hair: { id: 'ombre', c1: '#3b2416', c2: '#ff8fc8' }, eyes: { id: 'e-sparkle', c1: '#6b4226' }, brows: { id: 'b-straight', c1: '#3b2416' }, lips: { id: 'l-gloss', c1: '#e07a8a' }, blush: { id: 'bl-soft', c1: '#ff8fa3' }, facedeco: { id: 'fd-idol', c1: '#ff8fc8' }, top: { id: 'sailortop', c1: '#ffffff', c2: '#1d3557' }, bottom: { id: 'tennisskirt', c1: '#ffffff', c2: '#0a84ff' }, shoes: { id: 'chainboots', c1: '#ffffff' }, hat: { id: 'idolribbon', c1: '#ffffff' }, ears: { id: 'inear' }, bag: { id: 'lightstick', c1: '#7df9ff' } }, 'victory'),
+  },
   brat: {
     id: 'brat', name: 'brat runway', short: 'brat', sub: '2025 brat collection', token: '💚', tokenName: 'brat tokens',
     themes: BRAT_THEMES, music: 'brat', badge: 'EVENT', icon: '💚', blurb: '2025 brat collection · earn 💚 to unlock',
@@ -152,7 +204,7 @@ const CODES = {
   BRATSUMMER: { tokens: { brat: 10 } }, LIMEGREEN: { tokens: { brat: 5 } }, CLUBCLASSICS: { tokens: { brat: 5 } },
   SPOOKY: { tokens: { halloween: 10 } }, TRICKORTREAT: { tokens: { halloween: 5 } },
   GARBA: { tokens: { navratri: 10 } }, DANDIYA: { tokens: { navratri: 5 } },
-  BADDIE: { passXp: 150 }, HOLI: { tokens: { navratri: 5 } }, UTSAV: { coins: 250 },
+  BADDIE: { passXp: 150 }, HOLI: { tokens: { navratri: 5 } }, KATSEYE: { tokens: { katseye: 10 } }, GUTS: { tokens: { olivia: 10 } }, KPOP: { tokens: { kpop: 10 } }, COMEBACK: { tokens: { kpop: 5 } }, UTSAV: { coins: 250 },
 };
 const REMOVABLE = new Set(['top', 'bottom', 'dress', 'outer', 'shoes', 'legwear', 'hat', 'glasses', 'neck', 'ears', 'bag', 'gloves', 'back', 'shadow', 'blush', 'facedeco']);
 const SLOT_LABEL = { hair: 'Hair', eyes: 'Eyes', brows: 'Brows', lips: 'Lips', shadow: 'Eyeshadow & Liner', blush: 'Blush', facedeco: 'Face Details', top: 'Tops', bottom: 'Bottoms', dress: 'Dresses & Sets', outer: 'Outerwear', shoes: 'Shoes', legwear: 'Socks & Tights', hat: 'Hats & Headwear', glasses: 'Glasses', neck: 'Necklaces', ears: 'Earrings', bag: 'Bags & Props', gloves: 'Gloves, Bangles & Nails', back: 'Wings, Capes & Drapes' };
@@ -182,7 +234,7 @@ const SAVE_KEY = 'dti-brat-save-v1';
 const DEFAULT_SAVE = {
   name: '', coins: 250, xp: 0, vip: false, owned: [], redeemed: [], claimed: [], outfits: [null, null, null, null, null, null],
   look: null, lastPose: 'tada', title: '',
-  tokens: { brat: 0, halloween: 0, navratri: 0 },
+  tokens: { brat: 0, halloween: 0, navratri: 0, katseye: 0, olivia: 0, kpop: 0 },
   evStats: {},
   pass: { xp: 0, premium: false, claimed: [] },
   stats: { rounds: 0, wins: 0, top3: 0, bestStars: 0 },
@@ -313,6 +365,41 @@ const Sound = (() => {
         if (s % 4 === 2) noise(t, .05, .04, 8000);
         if (s % 2 === 0) tone(t, mtof(this.bell[(s / 2 + bar * 3) % 8]), .5, 'triangle', .045);
         if (s === 12 && bar % 2) tone(t, mtof(ch[0] - 24), 1, 'sine', .14);
+      },
+    },
+    // punchy dance-pop with a pumping synth bass
+    katseye: {
+      bpm: 124, roots: [41, 41, 44, 39], bass: [0, 0, 12, 0, 0, 12, 0, 10],
+      play(t, s, bar) {
+        const root = this.roots[bar % 4];
+        if (s % 4 === 0) kick(t, .95);
+        if (s === 4 || s === 12) { noise(t, .18, .26, 1600, 'bandpass'); noise(t + .01, .12, .1, 5000); }
+        if (s % 2 === 1) noise(t, .03, .05, 9000);
+        tone(t, mtof(root + this.bass[s % 8]), .12, 'square', .07, 900);
+        if ([0, 3, 6, 10, 13].includes(s)) tone(t, mtof(root + 36 + [0, 3, 7, 10, 12][s % 5]), .14, 'sawtooth', .03, 3200);
+      },
+    },
+    // pop-punk: driving eighths, power-chord saws
+    guts: {
+      bpm: 168, roots: [50, 46, 43, 45],
+      play(t, s, bar) {
+        const root = this.roots[bar % 4];
+        if (s % 4 === 0 || s === 10) kick(t, .9);
+        if (s === 4 || s === 12) noise(t, .16, .3, 1800, 'bandpass');
+        if (s % 2 === 0) { noise(t, .04, .06, 8000); [0, 7, 12].forEach(n => tone(t, mtof(root + n), .16, 'sawtooth', .045, 1400)); }
+        if (s % 2 === 0) tone(t, mtof(root - 12), .14, 'sawtooth', .07, 500);
+      },
+    },
+    // bright k-pop: claps, arps and a bouncy bass
+    kpop: {
+      bpm: 128, chords: [[60, 64, 67, 71], [57, 60, 64, 67], [62, 65, 69, 72], [55, 59, 62, 65]],
+      play(t, s, bar) {
+        const ch = this.chords[bar % 4];
+        if (s % 4 === 0) kick(t, .9);
+        if (s === 4 || s === 12) { noise(t, .12, .22, 1400, 'bandpass'); noise(t + .02, .1, .15, 1400, 'bandpass'); }
+        if (s % 2 === 1) noise(t, .03, .05, 9500);
+        tone(t, mtof(ch[s % 4] + 12), .1, 'triangle', .05);
+        if ([0, 6, 8, 14].includes(s)) tone(t, mtof(ch[0] - 24), .2, 'sawtooth', .08, 700);
       },
     },
     // dhol-style groove with a raag-flavoured melody
@@ -527,7 +614,7 @@ function feedback(ev, theme) {
   if (!ev.shoes) f.push('No shoes?! Bold choice.');
   if (ev.acc >= 4) f.push('Accessories were serving ✨');
   if (ev.makeup >= 2) f.push('Love the glam 💄');
-  if (theme.ev && ev.evCount >= 3) f.push({ brat: 'so brat. so iconic. 💚', halloween: 'Spooktacular costume! 🎃', navratri: 'Garba-ready and gorgeous! 🪔' }[theme.ev]);
+  if (theme.ev && ev.evCount >= 3) f.push({ brat: 'so brat. so iconic. 💚', halloween: 'Spooktacular costume! 🎃', navratri: 'Garba-ready and gorgeous! 🪔', katseye: 'Debut-ready. The fandom is screaming 😼', olivia: 'Purple-grunge perfection 💜', kpop: 'Comeback-stage visual! 💫' }[theme.ev]);
   return f;
 }
 
@@ -559,6 +646,7 @@ function goMenu() {
     card('classic', 'classic', `<span class="mc-icon">👗</span><b>Classic Runway</b><small>${THEMES.length} themes · swim, weddings & holidays · 7 rivals</small>`) +
     ev(EVENTS.halloween) + ev(EVENTS.navratri) +
     card('festivals', 'festcard', `<span class="mc-badge">NEW</span><span class="mc-icon">🇮🇳</span><b>Festivals of India</b><small>${FESTIVAL_THEMES.length} festivals · Holi, Eid, Onam, Diwali, Bihu… · earn 🪔 diyas</small>`) +
+    ev(EVENTS.katseye) + ev(EVENTS.olivia) + ev(EVENTS.kpop) +
     card('pass', 'passcard', `<span class="mc-badge">SEASON 1</span><span class="mc-icon">💅</span><b>Baddie Pass</b><small>Level ${passLevel()}/${PASS_TIERS} · ${save.pass.premium ? 'Premium unlocked' : 'free + premium rewards'}</small>`) +
     ev(EVENTS.brat) +
     card('free', '', '<span class="mc-icon">🪞</span><b>Wardrobe</b><small>Free play · no timer · photo mode</small>') +
@@ -651,6 +739,7 @@ function openHowTo() {
     <li><b>Get judged.</b> Pieces that match the theme, theme colors, a complete look (top+bottom or a dress, shoes) and accessories all score.</li>
     <li><b>Earn rewards.</b> Coins buy locked pieces 🪙, XP ranks you up from <i>Fashion Newbie</i> to <i>Top Model</i>.</li>
     <li><b>Seasons 🎃 🪔 💚</b> Walk seasonal runways to earn candy, diyas or brat tokens and unlock each season's collection. Finish quests for bonus tokens.</li>
+    <li><b>Pop updates 😼 💜 🎤</b> KATSEYE, Olivia Rodrigo (GUTS & SOUR) and K-Pop Idols events — fan-inspired concepts with their own stages, music and collections.</li>
     <li><b>Festivals of India 🇮🇳</b> Holi, Diwali, Raksha Bandhan, Eid, Onam, Ganesh Chaturthi, Karva Chauth, Lohri, Baisakhi, Bihu, Teej, Independence Day and more — each with festive outfits. Earns 🪔 diyas too!</li>
     <li><b>Baddie Pass 💅</b> Every runway earns pass XP. Claim free rewards each level — or unlock Premium for the full baddie collection.</li>
   </ol>`, [{ label: 'Got it!' }]);
